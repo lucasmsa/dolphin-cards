@@ -15,6 +15,7 @@ import br.com.dolphinCards.form.SignInForm;
 import br.com.dolphinCards.form.SignUpForm;
 import br.com.dolphinCards.model.Student;
 import br.com.dolphinCards.repository.StudentRepository;
+import br.com.dolphinCards.service.SignUpService;
 
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +32,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class StudentsController {
     private StudentRepository studentRepository;
     private PasswordEncoder passwordEncoder;
-    private UserDetailsService userDetailsService;
 
     public StudentsController(StudentRepository studentRepository, PasswordEncoder passwordEncoder) {
         this.studentRepository = studentRepository;
@@ -40,27 +40,10 @@ public class StudentsController {
 
     @PostMapping(value="/signup")
     public ResponseEntity<StudentDTO> signUp(@Valid @RequestBody SignUpForm signUpForm) {
-        boolean emailAlreadyExists = this.studentRepository.findByEmail(signUpForm.getEmail()).isPresent();
-        if (emailAlreadyExists) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
-        }
-        String rawPassword = signUpForm.getPassword();
-        String encodedPassword = this.passwordEncoder.encode(rawPassword);
-        Student savedStudent = studentRepository.save(new Student(signUpForm, encodedPassword));
-        StudentDTO studentDTO = new StudentDTO(savedStudent);
-        
-        return ResponseEntity.status(HttpStatus.CREATED).body(studentDTO);
+        StudentDTO studentDTO = new SignUpService(studentRepository, passwordEncoder, signUpForm).run();
+        // Add proper exception handling afterwards
+        return studentDTO == null 
+                ? ResponseEntity.status(HttpStatus.CONFLICT).body(studentDTO)      
+                : ResponseEntity.status(HttpStatus.CREATED).body(studentDTO);
     }   
-    
-    
-    @PostMapping(value="/signin")
-    public ResponseEntity signIn(@Valid @RequestBody SignInForm signInForm) {
-        try {
-            System.out.println("Logging in the student ⏳");
-
-            return ResponseEntity.ok().body(null);
-        } catch (Exception exception) {
-            return ResponseEntity.badRequest().build();
-        }
-    }
 }

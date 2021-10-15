@@ -2,6 +2,8 @@ package br.com.dolphinCards.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -38,10 +41,15 @@ public class Student implements Serializable {
 
     @Column
     private String password;
+
+    @Column(nullable = true)
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY)
+    private Set<Discipline> disciplines;
     
     public Student(SignUpForm studentForm, String encryptedPassword) {
         this.name = studentForm.getName();
         this.email = studentForm.getEmail();
         this.password = encryptedPassword;
+        this.disciplines = new HashSet<>();
     }
 }
