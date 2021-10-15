@@ -49,7 +49,7 @@ public class StudentsController {
         Student savedStudent = studentRepository.save(new Student(signUpForm, encodedPassword));
         StudentDTO studentDTO = new StudentDTO(savedStudent);
         
-        return ResponseEntity.ok().body(studentDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(studentDTO);
     }   
     
     

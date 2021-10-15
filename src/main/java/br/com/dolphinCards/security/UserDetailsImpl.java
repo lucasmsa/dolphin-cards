@@ -15,13 +15,11 @@ import lombok.Setter;
 @Setter
 public class UserDetailsImpl extends User {
     private static final long serialVersionUID = 2144213171926616839L;
-	private String id; 
-	private String email;
+	private Student student;
 
 	public UserDetailsImpl(Student student) {
 		super(student.getEmail(), student.getPassword(), authorities(student));
-		this.id = student.getId();
-		this.email = student.getEmail();
+		this.student = student;
 	}
 
 	private static Collection<? extends GrantedAuthority> authorities(Student student) {

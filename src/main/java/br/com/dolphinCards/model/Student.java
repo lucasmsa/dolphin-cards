@@ -38,10 +38,7 @@ public class Student implements Serializable {
 
     @Column
     private String password;
-
-    // @ManyToMany(fetch = FetchType.EAGER)
-	// private List<Perfil> perfis = new ArrayList<>();
-
+    
     public Student(SignUpForm studentForm, String encryptedPassword) {
         this.name = studentForm.getName();
         this.email = studentForm.getEmail();
