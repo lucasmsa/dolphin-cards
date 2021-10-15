@@ -3,6 +3,8 @@ package br.com.dolphinCards.config.filters;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServletRequest;
@@ -10,25 +12,25 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import br.com.dolphinCards.config.SecurityConstants;
 import br.com.dolphinCards.model.Student;
+import br.com.dolphinCards.security.UserDetailsImpl;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter{
     
     private AuthenticationManager authenticationManager;
-    private Environment env;
 
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager, Environment env) {
+    public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
-        this.env = env;
         setFilterProcessesUrl("/auth/signin"); 
     }
 
@@ -53,12 +55,14 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             HttpServletResponse response,
                                             FilterChain filterchain,
                                             Authentication auth) throws IOException {
-        String token = JWT.create()
-                .withSubject(((Student) auth.getPrincipal()).getEmail())
-                .withExpiresAt(new Date(System.currentTimeMillis() + this.env.getProperty("EXPIRATION_TIME")))
-                .sign(Algorithm.HMAC512(this.env.getProperty("SECRET").getBytes()));
+        UserDetailsImpl user = (UserDetailsImpl) auth.getPrincipal();                        
 
-        String body = ((Student) auth.getPrincipal()).getEmail() + " " + token;
+        String token = JWT.create()
+                .withSubject(user.getUsername())
+                .withExpiresAt(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
+                .sign(Algorithm.HMAC512(SecurityConstants.SECRET.getBytes()));
+
+        String body = user.getUsername() + " " + token;
 
         response.getWriter().write(body);
         response.getWriter().flush();

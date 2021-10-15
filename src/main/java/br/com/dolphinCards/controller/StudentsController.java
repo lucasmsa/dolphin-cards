@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import br.com.dolphinCards.DTO.StudentDTO;
-import br.com.dolphinCards.config.AuthenticationConfigurations;
 import br.com.dolphinCards.errors.ResourceAlreadyExistsException;
 import br.com.dolphinCards.form.SignInForm;
 import br.com.dolphinCards.form.SignUpForm;
