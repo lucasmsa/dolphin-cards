@@ -37,6 +37,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
         .antMatchers(HttpMethod.POST, "/auth/**").permitAll()
         .antMatchers(HttpMethod.POST, "/discipline").authenticated()
+        .antMatchers(HttpMethod.GET, "/discipline").authenticated()
+        .antMatchers(HttpMethod.GET, "/discipline/**").authenticated()
         .anyRequest().authenticated()
         .and()
         .addFilter(new JWTAuthenticationFilter(authenticationManager()))
@@ -48,14 +50,4 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
-    
-    // @Bean
-    // CorsConfigurationSource corsConfigurationSource() {
-    //     final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        
-    //     CorsConfiguration corsConfiguration = new CorsConfiguration().applyPermitDefaultValues();
-    //     source.registerCorsConfiguration("/**", corsConfiguration);
-        
-    //     return source;
-    // }
 }

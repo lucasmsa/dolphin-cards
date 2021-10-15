@@ -1,5 +1,7 @@
 package br.com.dolphinCards.DTO;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import br.com.dolphinCards.model.Discipline;
 import br.com.dolphinCards.model.Student;
 import lombok.Getter;
@@ -14,11 +16,12 @@ public class DisciplineDTO {
 
     private String name;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private StudentDTO creator; 
 
-    public DisciplineDTO(Discipline discipline, StudentDTO studentDTO) {
+    public DisciplineDTO(Discipline discipline, StudentDTO studentDTO, boolean listingDisciplines) {
         this.id = discipline.getId();
         this.name = discipline.getName();
-        this.creator = studentDTO;
+        if (!listingDisciplines) this.creator = studentDTO;
     }
 }

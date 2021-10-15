@@ -1,5 +1,6 @@
 package br.com.dolphinCards.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,16 +27,22 @@ public class CreateDisciplineService {
     }
     
     public DisciplineDTO run() {
-        String studentEmail = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Optional<Student> optionalStudent = studentRepository.findByEmail(studentEmail);
-        if (!optionalStudent.isPresent()) {
-            return null;
-        }
+        Optional<Student> optionalStudent = new CheckIfLoggedStudentExists().run(studentRepository);
+        if (optionalStudent == null) return null;
+        
         Student student = optionalStudent.get();
         StudentDTO studentDTO = new StudentDTO(student);
         Discipline discipline = new Discipline(disciplinesForm.getName(), disciplinesForm.getVisible(), student);
+        List<Discipline> disciplineWithTheSameName = disciplineRepository.findAllByDisciplineNameAndStudent(disciplinesForm.getName(), student.getId());
+
+        // Discipline with that name already exists for this student
+        if (disciplineWithTheSameName.size() > 0) {
+            System.out.println("Discipline with that name already exists!");
+            return null;
+        }
+
         Discipline savedDiscipline = disciplineRepository.save(discipline);
 
-        return new DisciplineDTO(savedDiscipline, studentDTO);
+        return new DisciplineDTO(savedDiscipline, studentDTO, false);
     }
 }
