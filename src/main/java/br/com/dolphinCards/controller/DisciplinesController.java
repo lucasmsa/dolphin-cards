@@ -6,6 +6,9 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.apache.catalina.connector.Response;
+import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.dolphinCards.DTO.DisciplineDTO;
@@ -44,9 +48,11 @@ public class DisciplinesController {
     }   
 
     @GetMapping
-    public ResponseEntity<List<DisciplineDTO>> fetchAllStudentDisciplines() {
-        List<DisciplineDTO> disciplines = new GetAllStudentsDisciplines(studentRepository, disciplineRepository).run();
+    public ResponseEntity<List<DisciplineDTO>> fetchAllStudentDisciplines(@RequestParam(required = false) String name,
+    @PageableDefault(sort = "name", direction = Direction.DESC, page=0, size=10) Pageable paging) {
         
+        List<DisciplineDTO> disciplines = new GetAllStudentsDisciplines(studentRepository, disciplineRepository, paging).run();
+
         return disciplines == null 
                 ? ResponseEntity.badRequest().build()
                 : ResponseEntity.ok().body(disciplines);
