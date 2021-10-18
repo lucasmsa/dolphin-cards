@@ -19,9 +19,9 @@ public class DisciplineDTO {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private StudentDTO creator; 
 
-    public DisciplineDTO(Discipline discipline, StudentDTO studentDTO, boolean listingDisciplines) {
+    public DisciplineDTO(Discipline discipline, Student student, boolean listingDisciplines) {
         this.id = discipline.getId();
         this.name = discipline.getName();
-        if (!listingDisciplines) this.creator = studentDTO;
+        if (!listingDisciplines) this.creator = new StudentDTO(student);
     }
 }

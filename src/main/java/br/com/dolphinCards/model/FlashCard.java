@@ -46,9 +46,10 @@ public class FlashCard {
     @JoinColumn(name="discipline_id")
     private Discipline discipline;
 
-    public FlashCard(String question, String answer) {
+    public FlashCard(String question, String answer, Discipline discipline) {
         this.question = question;
         this.answer = answer;
+        this.discipline = discipline;
         this.nextAnswerDate = new Date();
         this.timesAnswered = 0;
     }

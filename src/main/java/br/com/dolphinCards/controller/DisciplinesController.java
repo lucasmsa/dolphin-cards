@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.dolphinCards.DTO.DisciplineDTO;
 import br.com.dolphinCards.form.DisciplinesForm;
 import br.com.dolphinCards.model.Discipline;
-import br.com.dolphinCards.repository.DisciplineRepository;
+import br.com.dolphinCards.repository.DisciplinesRepository;
 import br.com.dolphinCards.repository.StudentRepository;
 import br.com.dolphinCards.service.CreateDisciplineService;
 import br.com.dolphinCards.service.GetAllStudentsDisciplines;
@@ -31,9 +31,9 @@ import br.com.dolphinCards.service.GetAllStudentsDisciplines;
 @RequestMapping("/discipline")
 public class DisciplinesController {
     private StudentRepository studentRepository;
-    private DisciplineRepository disciplineRepository;
+    private DisciplinesRepository disciplineRepository;
 
-    public DisciplinesController(StudentRepository studentRepository, DisciplineRepository disciplineRepository) {
+    public DisciplinesController(StudentRepository studentRepository, DisciplinesRepository disciplineRepository) {
         this.studentRepository = studentRepository;
         this.disciplineRepository = disciplineRepository;
     }

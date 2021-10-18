@@ -10,16 +10,16 @@ import br.com.dolphinCards.DTO.StudentDTO;
 import br.com.dolphinCards.form.DisciplinesForm;
 import br.com.dolphinCards.model.Discipline;
 import br.com.dolphinCards.model.Student;
-import br.com.dolphinCards.repository.DisciplineRepository;
+import br.com.dolphinCards.repository.DisciplinesRepository;
 import br.com.dolphinCards.repository.StudentRepository;
 
 public class CreateDisciplineService {
     private StudentRepository studentRepository;
-    private DisciplineRepository disciplineRepository;
+    private DisciplinesRepository disciplineRepository;
     private DisciplinesForm disciplinesForm;
 
     public CreateDisciplineService(StudentRepository studentRepository, 
-                                   DisciplineRepository disciplineRepository,
+                                   DisciplinesRepository disciplineRepository,
                                    DisciplinesForm disciplinesForm) {
         this.studentRepository = studentRepository;
         this.disciplineRepository = disciplineRepository;
@@ -31,7 +31,6 @@ public class CreateDisciplineService {
         if (optionalStudent == null) return null;
         
         Student student = optionalStudent.get();
-        StudentDTO studentDTO = new StudentDTO(student);
         Discipline discipline = new Discipline(disciplinesForm.getName(), disciplinesForm.getVisible(), student);
         List<Discipline> disciplineWithTheSameName = disciplineRepository.findAllByDisciplineNameAndStudent(disciplinesForm.getName(), student.getId());
 
@@ -43,6 +42,6 @@ public class CreateDisciplineService {
 
         Discipline savedDiscipline = disciplineRepository.save(discipline);
 
-        return new DisciplineDTO(savedDiscipline, studentDTO, false);
+        return new DisciplineDTO(savedDiscipline, student, false);
     }
 }

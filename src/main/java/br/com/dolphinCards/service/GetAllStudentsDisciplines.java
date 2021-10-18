@@ -13,17 +13,17 @@ import br.com.dolphinCards.DTO.StudentDTO;
 import br.com.dolphinCards.form.DisciplinesForm;
 import br.com.dolphinCards.model.Discipline;
 import br.com.dolphinCards.model.Student;
-import br.com.dolphinCards.repository.DisciplineRepository;
+import br.com.dolphinCards.repository.DisciplinesRepository;
 import br.com.dolphinCards.repository.StudentRepository;
 
 
 public class GetAllStudentsDisciplines {
     private StudentRepository studentRepository;
-    private DisciplineRepository disciplineRepository;
+    private DisciplinesRepository disciplineRepository;
     private Pageable pagination;
 
     public GetAllStudentsDisciplines(StudentRepository studentRepository, 
-                                     DisciplineRepository disciplineRepository,
+                                     DisciplinesRepository disciplineRepository,
                                      Pageable pagination
                                     ) {
         this.studentRepository = studentRepository;
@@ -39,7 +39,7 @@ public class GetAllStudentsDisciplines {
         Page<Discipline> studentsDisciplines = disciplineRepository.findAllByStudent(student.getId(), pagination);
 
         return studentsDisciplines.stream()
-                                  .map(discipline -> new DisciplineDTO(discipline, new StudentDTO(student), true))
+                                  .map(discipline -> new DisciplineDTO(discipline, student, true))
                                   .collect(Collectors.toList());
     }
 }

@@ -15,8 +15,10 @@ import br.com.dolphinCards.model.Discipline;
 import br.com.dolphinCards.model.Student;
 
 @Repository
-public interface DisciplineRepository extends JpaRepository<Discipline, String> {
+public interface DisciplinesRepository extends JpaRepository<Discipline, String> {
     public Optional<Discipline> findById(String id);
+
+    public Optional<Discipline> findByName(String name);
 
     @Query(value = "SELECT * FROM DISCIPLINES WHERE NAME = ?1 AND STUDENT_ID = ?2", nativeQuery = true)
     public List<Discipline> findAllByDisciplineNameAndStudent(String name, String studentId);
