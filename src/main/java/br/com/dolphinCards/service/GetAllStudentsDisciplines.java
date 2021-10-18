@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties.Pageable;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import br.com.dolphinCards.DTO.DisciplineDTO;
@@ -36,7 +36,7 @@ public class GetAllStudentsDisciplines {
         if (optionalStudent == null) return null;
         
         Student student = optionalStudent.get();
-        List<Discipline> studentsDisciplines = disciplineRepository.findAllByStudent(student.getId(), pagination);
+        Page<Discipline> studentsDisciplines = disciplineRepository.findAllByStudent(student.getId(), pagination);
 
         return studentsDisciplines.stream()
                                   .map(discipline -> new DisciplineDTO(discipline, new StudentDTO(student), true))
