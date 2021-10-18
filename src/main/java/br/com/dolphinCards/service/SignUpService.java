@@ -6,7 +6,6 @@ import br.com.dolphinCards.form.SignUpForm;
 import br.com.dolphinCards.repository.StudentRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-
 public class SignUpService {
     private StudentRepository studentRepository;
     private PasswordEncoder passwordEncoder;

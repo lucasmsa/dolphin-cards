@@ -25,11 +25,11 @@ public class FlashCardsDTO {
 
     private DisciplineDTO discipline;
 
-    public FlashCardsDTO(FlashCard flashCards, Discipline discipline, Student student) {
+    public FlashCardsDTO(FlashCard flashCards, Discipline discipline, Student student, boolean flashCardsListing) {
         this.id = flashCards.getId();
         this.question = flashCards.getQuestion();
         this.answer = flashCards.getAnswer();
         this.nextAnswerDate = flashCards.getNextAnswerDate();
-        this.discipline = new DisciplineDTO(discipline, student, false);
+        this.discipline = new DisciplineDTO(discipline, student, flashCardsListing ? true : false);
     }
 }
