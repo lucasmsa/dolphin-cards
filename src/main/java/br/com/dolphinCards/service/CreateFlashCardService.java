@@ -51,6 +51,6 @@ public class CreateFlashCardService {
         FlashCard flashCard = new FlashCard(flashCardsForm.getQuestion(), flashCardsForm.getAnswer(), discipline);
         FlashCard savedFlashCard = flashCardsRepository.save(flashCard);
 
-        return new FlashCardsDTO(savedFlashCard, discipline, student, false);
+        return new FlashCardsDTO(savedFlashCard, discipline, student, false, false);
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import br.com.dolphinCards.model.Discipline;
+import br.com.dolphinCards.model.FlashCard;
 import br.com.dolphinCards.model.Student;
 
 @Repository
@@ -26,5 +27,12 @@ public interface DisciplinesRepository extends JpaRepository<Discipline, String>
     @Query(value = "SELECT * FROM DISCIPLINES WHERE STUDENT_ID = ?1", 
            countQuery = "SELECT count(*) FROM DISCIPLINES WHERE STUDENT_ID = ?1",
            nativeQuery = true)
-    public Page<Discipline> findAllByStudent(String studentId, Pageable pageable);
+    public Page<Discipline> findAllDisciplinesFromStudent(String studentId, Pageable pageable);
+
+    @Query(value = "SELECT fc.id, fc.answer, fc.question, fc.next_answer_date, fc.times_answered, fc.discipline_id FROM flash_cards as fc JOIN disciplines as d ON fc.discipline_id = d.id  JOIN STUDENTS as s ON d.student_id = s.id WHERE fc.discipline_id = ?1 AND d.student_id = ?2", 
+           countQuery = "SELECT count(*) FROM flash_cards as fc JOIN disciplines as d ON fc.discipline_id = d.id  JOIN STUDENTS as s ON d.student_id = s.id WHERE fc.discipline_id = ?1 AND d.student_id = ?2",
+           nativeQuery = true)
+    public Page<Object> findAllFlashCardsFromDiscipline(String disciplineId, String studentId, Pageable pageable);
 }
+
+// fc.id, fc.answer, fc.question, fc.next_answer_date, fc.times_answered, fc.discipline_id

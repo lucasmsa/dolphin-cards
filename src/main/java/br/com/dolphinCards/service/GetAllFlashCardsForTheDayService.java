@@ -41,7 +41,7 @@ public class GetAllFlashCardsForTheDayService {
         Student student = optionalStudent.get();
         Page<FlashCard> flashCardsForTheDay = flashCardsRepository.findAllFlashCardsForTheDay(student.getId(), new Date(), pagination);
         return flashCardsForTheDay.stream()
-                   .map(flashCard -> new FlashCardsDTO(flashCard, flashCard.getDiscipline(), flashCard.getDiscipline().getStudent(), true))
+                   .map(flashCard -> new FlashCardsDTO(flashCard, flashCard.getDiscipline(), flashCard.getDiscipline().getStudent(), false, true))
                    .collect(Collectors.toList());
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,11 +21,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.dolphinCards.DTO.DisciplineDTO;
+import br.com.dolphinCards.DTO.FlashCardsDTO;
 import br.com.dolphinCards.form.DisciplinesForm;
 import br.com.dolphinCards.model.Discipline;
 import br.com.dolphinCards.repository.DisciplinesRepository;
 import br.com.dolphinCards.repository.StudentRepository;
 import br.com.dolphinCards.service.CreateDisciplineService;
+import br.com.dolphinCards.service.GetAllDisciplineFlashCards;
 import br.com.dolphinCards.service.GetAllStudentsDisciplines;
 
 @RestController
@@ -48,13 +51,23 @@ public class DisciplinesController {
     }   
 
     @GetMapping
-    public ResponseEntity<List<DisciplineDTO>> fetchAllStudentDisciplines(@RequestParam(required = false) String name,
-    @PageableDefault(sort = "name", direction = Direction.DESC, page=0, size=10) Pageable pagination) {
+    public ResponseEntity<List<DisciplineDTO>> fetchAllStudentDisciplines(@PageableDefault(sort = "name", direction = Direction.DESC, page=0, size=10) Pageable pagination) {
         
         List<DisciplineDTO> disciplines = new GetAllStudentsDisciplines(studentRepository, disciplineRepository, pagination).run();
 
         return disciplines == null 
                 ? ResponseEntity.badRequest().build()
                 : ResponseEntity.ok().body(disciplines);
+    }
+
+    @GetMapping("/{name}")
+    public ResponseEntity<List<FlashCardsDTO>> fetchAlDisciplineFlashCards(@PathVariable("name") String name,
+    @PageableDefault(sort = "question", direction = Direction.DESC, page=0, size=10) Pageable pagination) {
+        
+        List<FlashCardsDTO> flashCards = new GetAllDisciplineFlashCards(studentRepository, disciplineRepository, name, pagination).run();
+
+        return flashCards == null 
+                ? ResponseEntity.badRequest().build()
+                : ResponseEntity.ok().body(flashCards);
     }
 }

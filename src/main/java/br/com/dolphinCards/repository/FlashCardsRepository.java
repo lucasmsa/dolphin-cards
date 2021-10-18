@@ -15,5 +15,3 @@ public interface FlashCardsRepository extends JpaRepository<FlashCard, String> {
            nativeQuery = true)
     public Page<FlashCard> findAllFlashCardsForTheDay(String studentId, Date date, Pageable pageable);
 }
-
-// flashCards.discipline.student_id 

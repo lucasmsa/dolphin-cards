@@ -1,8 +1,12 @@
 package br.com.dolphinCards.DTO;
 
 import java.time.temporal.Temporal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import br.com.dolphinCards.model.Discipline;
 import br.com.dolphinCards.model.FlashCard;
@@ -23,13 +27,37 @@ public class FlashCardsDTO {
 
     private Date nextAnswerDate;
 
+    private int timesAnswered;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private DisciplineDTO discipline;
 
-    public FlashCardsDTO(FlashCard flashCards, Discipline discipline, Student student, boolean flashCardsListing) {
+    public FlashCardsDTO(String id, String question, String answer, int timesAnswered, Date nextAnswerDate) { 
+        this.id = id;
+        this.question = question;
+        this.answer = answer;
+        this.timesAnswered = timesAnswered;
+        this.nextAnswerDate = nextAnswerDate;
+    }
+
+    public FlashCardsDTO(FlashCard flashCards, Discipline discipline, Student student, boolean fetchingFromDiscipline, boolean flashCardsListing) {
         this.id = flashCards.getId();
         this.question = flashCards.getQuestion();
         this.answer = flashCards.getAnswer();
+        this.timesAnswered = flashCards.getTimesAnswered();
         this.nextAnswerDate = flashCards.getNextAnswerDate();
-        this.discipline = new DisciplineDTO(discipline, student, flashCardsListing ? true : false);
+        if (!fetchingFromDiscipline) {
+            this.discipline = new DisciplineDTO(discipline, student, flashCardsListing ? true : false);
+        }
+    }
+
+    public List<FlashCardsDTO> objectFieldsToFlashCardsDTO(List<Object> flashCardsObjects) {
+        List<FlashCardsDTO> flashCardsDTOs = new ArrayList<FlashCardsDTO>();
+        for (Object flashCardObject : flashCardsObjects) {
+            Object[] fields = (Object[]) flashCardObject;
+            flashCardsDTOs.add(new FlashCardsDTO((String) fields[0], (String) fields[2], (String) fields[1], (int) fields[4], (Date) fields[3]));
+        }
+
+        return flashCardsDTOs;
     }
 }
