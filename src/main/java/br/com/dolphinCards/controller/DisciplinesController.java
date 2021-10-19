@@ -12,6 +12,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +28,7 @@ import br.com.dolphinCards.model.Discipline;
 import br.com.dolphinCards.repository.DisciplinesRepository;
 import br.com.dolphinCards.repository.StudentRepository;
 import br.com.dolphinCards.service.Disciplines.CreateDisciplineService;
+import br.com.dolphinCards.service.Disciplines.DeleteDisciplineService;
 import br.com.dolphinCards.service.Disciplines.GetAllDisciplineFlashCardsService;
 import br.com.dolphinCards.service.Disciplines.GetAllStudentsDisciplinesService;
 
@@ -43,31 +45,36 @@ public class DisciplinesController {
 
     @PostMapping
     public ResponseEntity<DisciplineDTO> createDiscipline(@Valid @RequestBody DisciplinesForm disciplinesForm) {
-        DisciplineDTO disciplineDTO = new CreateDisciplineService(studentRepository, disciplineRepository, disciplinesForm).run();
-        
-        return disciplineDTO == null
-               ? ResponseEntity.badRequest().build()
-               : ResponseEntity.ok().body(disciplineDTO);
-    }   
+        DisciplineDTO disciplineDTO = new CreateDisciplineService(studentRepository, disciplineRepository,
+                disciplinesForm).run();
+
+        return disciplineDTO == null ? ResponseEntity.badRequest().build() : ResponseEntity.ok().body(disciplineDTO);
+    }
 
     @GetMapping
-    public ResponseEntity<List<DisciplineDTO>> fetchAllStudentDisciplines(@PageableDefault(sort = "name", direction = Direction.DESC, page=0, size=10) Pageable pagination) {
-        
-        List<DisciplineDTO> disciplines = new GetAllStudentsDisciplinesService(studentRepository, disciplineRepository, pagination).run();
+    public ResponseEntity<List<DisciplineDTO>> fetchAllStudentDisciplines(
+            @PageableDefault(sort = "name", direction = Direction.DESC, page = 0, size = 10) Pageable pagination) {
 
-        return disciplines == null 
-                ? ResponseEntity.badRequest().build()
-                : ResponseEntity.ok().body(disciplines);
+        List<DisciplineDTO> disciplines = new GetAllStudentsDisciplinesService(studentRepository, disciplineRepository,
+                pagination).run();
+
+        return disciplines == null ? ResponseEntity.badRequest().build() : ResponseEntity.ok().body(disciplines);
+    }
+
+    @DeleteMapping("/{disciplineId}")
+    public ResponseEntity<FlashCardsDTO> deleteSpecificDiscipline(@PathVariable("disciplineId") String disciplineId) {
+        String discipline = new DeleteDisciplineService(studentRepository, disciplineRepository, disciplineId).run();
+
+        return discipline == "NOT_PRESENT" ? ResponseEntity.badRequest().build() : ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<List<FlashCardsDTO>> fetchAlDisciplineFlashCards(@PathVariable("name") String name,
-    @PageableDefault(sort = "question", direction = Direction.DESC, page=0, size=10) Pageable pagination) {
-        
-        List<FlashCardsDTO> flashCards = new GetAllDisciplineFlashCardsService(studentRepository, disciplineRepository, name, pagination).run();
+    public ResponseEntity<List<FlashCardsDTO>> fetchAllDisciplineFlashCards(@PathVariable("name") String name,
+            @PageableDefault(sort = "question", direction = Direction.DESC, page = 0, size = 10) Pageable pagination) {
 
-        return flashCards == null 
-                ? ResponseEntity.badRequest().build()
-                : ResponseEntity.ok().body(flashCards);
+        List<FlashCardsDTO> flashCards = new GetAllDisciplineFlashCardsService(studentRepository, disciplineRepository,
+                name, pagination).run();
+
+        return flashCards == null ? ResponseEntity.badRequest().build() : ResponseEntity.ok().body(flashCards);
     }
 }

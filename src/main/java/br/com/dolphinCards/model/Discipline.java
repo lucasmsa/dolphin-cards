@@ -3,6 +3,7 @@ package br.com.dolphinCards.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,7 +37,7 @@ public class Discipline {
     @JoinColumn(name = "student_id")
     private Student student;
 
-    @OneToMany(mappedBy = "discipline")
+    @OneToMany(mappedBy = "discipline", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<FlashCard> flashCards;
 
     public Discipline(String name, Student student) {

@@ -1,9 +1,12 @@
 package br.com.dolphinCards.service.FlashCards;
 
+
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
+import javax.validation.constraints.Null;
 
 import org.joda.time.DateTime;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,32 +26,33 @@ import br.com.dolphinCards.repository.FlashCardsRepository;
 import br.com.dolphinCards.repository.StudentRepository;
 import br.com.dolphinCards.service.Students.CheckIfLoggedStudentExistsService;
 
-public class GetSpecificFlashCardService {
+public class DeleteFlashCardService {
     private StudentRepository studentRepository;
     private DisciplinesRepository disciplineRepository;
     private FlashCardsRepository flashCardsRepository;
     private String flashCardId;
 
 
-    public GetSpecificFlashCardService(StudentRepository studentRepository, 
-                                       DisciplinesRepository disciplineRepository,
-                                       FlashCardsRepository flashCardsRepository,
-                                       String flashCardId
-                                        ) {
+    public DeleteFlashCardService(StudentRepository studentRepository, 
+                                  DisciplinesRepository disciplineRepository,
+                                  FlashCardsRepository flashCardsRepository,
+                                  String flashCardId
+                                ) {
         this.studentRepository = studentRepository;
         this.disciplineRepository = disciplineRepository;
         this.flashCardsRepository = flashCardsRepository;
         this.flashCardId = flashCardId;
     }
 
-    public FlashCardsDTO run() {
+    public String run() {
         Optional<Student> optionalStudent = new CheckIfLoggedStudentExistsService().run(studentRepository);
-        if (optionalStudent == null) return null;
+        if (optionalStudent == null) return "NOT_PRESENT";
         Student student = optionalStudent.get();
         Optional<FlashCard> optionalFlashCard = flashCardsRepository.findStudentFlashCardById(student.getId(), flashCardId);
-        if (!optionalFlashCard.isPresent()) return null;
-        FlashCard flashCard = optionalFlashCard.get();
+        if (!optionalFlashCard.isPresent()) return "NOT_PRESENT";
+
+        flashCardsRepository.deleteById(flashCardId);
                          
-        return new FlashCardsDTO(flashCard, flashCard.getDiscipline(), flashCard.getDiscipline().getStudent(), false, false);
+        return null;
     }
 }
