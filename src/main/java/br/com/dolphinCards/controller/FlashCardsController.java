@@ -26,9 +26,11 @@ import br.com.dolphinCards.form.FlashCardsForm;
 import br.com.dolphinCards.repository.DisciplinesRepository;
 import br.com.dolphinCards.repository.FlashCardsRepository;
 import br.com.dolphinCards.repository.StudentRepository;
-import br.com.dolphinCards.service.AnswerFlashCardService;
-import br.com.dolphinCards.service.CreateFlashCardService;
-import br.com.dolphinCards.service.GetAllFlashCardsForTheDayService;
+import br.com.dolphinCards.service.FlashCards.AnswerFlashCardService;
+import br.com.dolphinCards.service.FlashCards.CreateFlashCardService;
+import br.com.dolphinCards.service.FlashCards.GetAllFlashCardsForTheDayService;
+import br.com.dolphinCards.service.FlashCards.GetAllStudentFlashCardsService;
+import br.com.dolphinCards.service.FlashCards.GetSpecificFlashCardService;
 
 
 @RestController
@@ -61,6 +63,25 @@ public class FlashCardsController {
         return flashCards == null 
                 ? ResponseEntity.badRequest().build()
                 : ResponseEntity.ok().body(flashCards);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<FlashCardsDTO>> fetchAllStudentFlashCards(@RequestParam(required = false) String name,
+    @PageableDefault(sort = "question", direction = Direction.DESC, page=0, size=10) Pageable pagination) {
+        List<FlashCardsDTO> flashCards = new GetAllStudentFlashCardsService(studentRepository, flashCardsRepository, pagination).run();
+
+        return flashCards == null 
+                ? ResponseEntity.badRequest().build()
+                : ResponseEntity.ok().body(flashCards);
+    }
+
+    @GetMapping("/{flashCardId}") 
+    public ResponseEntity<FlashCardsDTO> fetchSpecificFlashCard(@PathVariable("flashCardId") String flashCardId) {
+        FlashCardsDTO flashCard = new GetSpecificFlashCardService(studentRepository, disciplineRepository, flashCardsRepository, flashCardId).run();
+
+        return flashCard == null 
+                ? ResponseEntity.badRequest().build()
+                : ResponseEntity.ok().body(flashCard);
     }
 
     @PatchMapping("/answer/{flashCardId}") 

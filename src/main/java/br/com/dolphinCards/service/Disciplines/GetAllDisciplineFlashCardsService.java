@@ -1,4 +1,4 @@
-package br.com.dolphinCards.service;
+package br.com.dolphinCards.service.Disciplines;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +19,7 @@ import br.com.dolphinCards.model.Student;
 import br.com.dolphinCards.repository.DisciplinesRepository;
 import br.com.dolphinCards.repository.FlashCardsRepository;
 import br.com.dolphinCards.repository.StudentRepository;
+import br.com.dolphinCards.service.Students.CheckIfLoggedStudentExistsService;
 
 public class GetAllDisciplineFlashCardsService {
     private StudentRepository studentRepository;

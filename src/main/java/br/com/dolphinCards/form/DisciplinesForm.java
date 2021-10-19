@@ -15,7 +15,4 @@ public class DisciplinesForm {
    @NotBlank(message = "Name is required")
    @Size(min = 2, max = 50, message = "Discipline length must be between 2 and 50")
    private String name; 
-
-   @NotNull
-   private Boolean visible;
 }

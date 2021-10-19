@@ -1,4 +1,4 @@
-package br.com.dolphinCards.service;
+package br.com.dolphinCards.service.Students;
 
 import br.com.dolphinCards.model.Student;
 import br.com.dolphinCards.DTO.StudentDTO;

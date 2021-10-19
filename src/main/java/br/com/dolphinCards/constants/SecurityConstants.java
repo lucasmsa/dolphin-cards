@@ -1,4 +1,4 @@
-package br.com.dolphinCards.config;
+package br.com.dolphinCards.constants;
 
 public class SecurityConstants {
     public static final String SECRET = "SECRET_KEY";

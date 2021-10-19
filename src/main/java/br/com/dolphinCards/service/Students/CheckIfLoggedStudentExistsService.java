@@ -1,4 +1,4 @@
-package br.com.dolphinCards.service;
+package br.com.dolphinCards.service.Students;
 
 import java.util.Optional;
 

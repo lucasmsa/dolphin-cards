@@ -1,5 +1,6 @@
 package br.com.dolphinCards.DTO;
 
+import java.text.SimpleDateFormat;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,19 +26,25 @@ public class FlashCardsDTO {
 
     private String answer;
 
-    private Date nextAnswerDate;
+    private String nextAnswerDate;
 
     private int timesAnswered;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private DisciplineDTO discipline;
 
+    public String dateToString(Date date) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
+        String strDate = formatter.format(date);  
+        return strDate;
+    }
+    
     public FlashCardsDTO(String id, String question, String answer, int timesAnswered, Date nextAnswerDate) { 
         this.id = id;
         this.question = question;
         this.answer = answer;
         this.timesAnswered = timesAnswered;
-        this.nextAnswerDate = nextAnswerDate;
+        this.nextAnswerDate = dateToString(nextAnswerDate);
     }
 
     public FlashCardsDTO(FlashCard flashCards, Discipline discipline, Student student, boolean fetchingFromDiscipline, boolean flashCardsListing) {
@@ -45,7 +52,7 @@ public class FlashCardsDTO {
         this.question = flashCards.getQuestion();
         this.answer = flashCards.getAnswer();
         this.timesAnswered = flashCards.getTimesAnswered();
-        this.nextAnswerDate = flashCards.getNextAnswerDate();
+        this.nextAnswerDate = dateToString(flashCards.getNextAnswerDate());
         if (!fetchingFromDiscipline) {
             this.discipline = new DisciplineDTO(discipline, student, flashCardsListing ? true : false);
         }

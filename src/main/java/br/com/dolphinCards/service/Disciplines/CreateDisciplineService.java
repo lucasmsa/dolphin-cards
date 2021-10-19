@@ -1,4 +1,4 @@
-package br.com.dolphinCards.service;
+package br.com.dolphinCards.service.Disciplines;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,6 +12,7 @@ import br.com.dolphinCards.model.Discipline;
 import br.com.dolphinCards.model.Student;
 import br.com.dolphinCards.repository.DisciplinesRepository;
 import br.com.dolphinCards.repository.StudentRepository;
+import br.com.dolphinCards.service.Students.CheckIfLoggedStudentExistsService;
 
 public class CreateDisciplineService {
     private StudentRepository studentRepository;
@@ -31,7 +32,7 @@ public class CreateDisciplineService {
         if (optionalStudent == null) return null;
         
         Student student = optionalStudent.get();
-        Discipline discipline = new Discipline(disciplinesForm.getName(), disciplinesForm.getVisible(), student);
+        Discipline discipline = new Discipline(disciplinesForm.getName(), student);
         List<Discipline> disciplineWithTheSameName = disciplineRepository.findAllByDisciplineNameAndStudent(disciplinesForm.getName(), student.getId());
 
         // Discipline with that name already exists for this student

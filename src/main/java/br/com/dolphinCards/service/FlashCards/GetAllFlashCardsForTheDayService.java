@@ -1,4 +1,4 @@
-package br.com.dolphinCards.service;
+package br.com.dolphinCards.service.FlashCards;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -21,6 +21,7 @@ import br.com.dolphinCards.model.Student;
 import br.com.dolphinCards.repository.DisciplinesRepository;
 import br.com.dolphinCards.repository.FlashCardsRepository;
 import br.com.dolphinCards.repository.StudentRepository;
+import br.com.dolphinCards.service.Students.CheckIfLoggedStudentExistsService;
 
 public class GetAllFlashCardsForTheDayService {
     private StudentRepository studentRepository;

@@ -15,7 +15,7 @@ import br.com.dolphinCards.form.SignInForm;
 import br.com.dolphinCards.form.SignUpForm;
 import br.com.dolphinCards.model.Student;
 import br.com.dolphinCards.repository.StudentRepository;
-import br.com.dolphinCards.service.SignUpService;
+import br.com.dolphinCards.service.Students.SignUpService;
 
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,4 +1,4 @@
-package br.com.dolphinCards.service;
+package br.com.dolphinCards.service.Disciplines;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +15,7 @@ import br.com.dolphinCards.model.Discipline;
 import br.com.dolphinCards.model.Student;
 import br.com.dolphinCards.repository.DisciplinesRepository;
 import br.com.dolphinCards.repository.StudentRepository;
+import br.com.dolphinCards.service.Students.CheckIfLoggedStudentExistsService;
 
 
 public class GetAllStudentsDisciplinesService {

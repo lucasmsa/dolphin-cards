@@ -26,9 +26,9 @@ import br.com.dolphinCards.form.DisciplinesForm;
 import br.com.dolphinCards.model.Discipline;
 import br.com.dolphinCards.repository.DisciplinesRepository;
 import br.com.dolphinCards.repository.StudentRepository;
-import br.com.dolphinCards.service.CreateDisciplineService;
-import br.com.dolphinCards.service.GetAllDisciplineFlashCardsService;
-import br.com.dolphinCards.service.GetAllStudentsDisciplinesService;
+import br.com.dolphinCards.service.Disciplines.CreateDisciplineService;
+import br.com.dolphinCards.service.Disciplines.GetAllDisciplineFlashCardsService;
+import br.com.dolphinCards.service.Disciplines.GetAllStudentsDisciplinesService;
 
 @RestController
 @RequestMapping("/discipline")

@@ -39,13 +39,9 @@ public class Discipline {
     @OneToMany(mappedBy = "discipline")
     private Set<FlashCard> flashCards;
 
-    @Column
-    private Boolean visible;
-
-    public Discipline(String name, boolean visible, Student student) {
+    public Discipline(String name, Student student) {
         this.name = name;
         this.student = student;
-        this.visible = visible;
         this.flashCards = new HashSet<FlashCard>();
     }
 }
