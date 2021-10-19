@@ -25,7 +25,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import br.com.dolphinCards.DTO.SignInDTO;
-import br.com.dolphinCards.config.SecurityConstants;
+import br.com.dolphinCards.constants.SecurityConstants;
 import br.com.dolphinCards.model.Student;
 import br.com.dolphinCards.security.UserDetailsImpl;
 

@@ -17,12 +17,12 @@ import br.com.dolphinCards.repository.DisciplinesRepository;
 import br.com.dolphinCards.repository.StudentRepository;
 
 
-public class GetAllStudentsDisciplines {
+public class GetAllStudentsDisciplinesService {
     private StudentRepository studentRepository;
     private DisciplinesRepository disciplineRepository;
     private Pageable pagination;
 
-    public GetAllStudentsDisciplines(StudentRepository studentRepository, 
+    public GetAllStudentsDisciplinesService(StudentRepository studentRepository, 
                                      DisciplinesRepository disciplineRepository,
                                      Pageable pagination
                                     ) {
@@ -32,7 +32,7 @@ public class GetAllStudentsDisciplines {
     }
     
     public List<DisciplineDTO> run() {
-        Optional<Student> optionalStudent = new CheckIfLoggedStudentExists().run(studentRepository);
+        Optional<Student> optionalStudent = new CheckIfLoggedStudentExistsService().run(studentRepository);
         if (optionalStudent == null) return null;
         
         Student student = optionalStudent.get();

@@ -20,13 +20,13 @@ import br.com.dolphinCards.repository.DisciplinesRepository;
 import br.com.dolphinCards.repository.FlashCardsRepository;
 import br.com.dolphinCards.repository.StudentRepository;
 
-public class GetAllDisciplineFlashCards {
+public class GetAllDisciplineFlashCardsService {
     private StudentRepository studentRepository;
     private DisciplinesRepository disciplineRepository;
     private String disciplineName;
     private Pageable pagination;
 
-    public GetAllDisciplineFlashCards(StudentRepository studentRepository, 
+    public GetAllDisciplineFlashCardsService(StudentRepository studentRepository, 
                                      DisciplinesRepository disciplineRepository,
                                      String disciplineName, 
                                      Pageable pagination
@@ -38,7 +38,7 @@ public class GetAllDisciplineFlashCards {
     }
     
     public List<FlashCardsDTO> run() {
-        Optional<Student> optionalStudent = new CheckIfLoggedStudentExists().run(studentRepository);
+        Optional<Student> optionalStudent = new CheckIfLoggedStudentExistsService().run(studentRepository);
         if (optionalStudent == null) return null;
     
         Student student = optionalStudent.get();

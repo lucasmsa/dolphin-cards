@@ -9,6 +9,8 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,13 +19,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.dolphinCards.DTO.DisciplineDTO;
 import br.com.dolphinCards.DTO.FlashCardsDTO;
+import br.com.dolphinCards.form.AnswerFlashCardForm;
 import br.com.dolphinCards.form.DisciplinesForm;
 import br.com.dolphinCards.form.FlashCardsForm;
 
 import br.com.dolphinCards.repository.DisciplinesRepository;
 import br.com.dolphinCards.repository.FlashCardsRepository;
 import br.com.dolphinCards.repository.StudentRepository;
-
+import br.com.dolphinCards.service.AnswerFlashCardService;
 import br.com.dolphinCards.service.CreateFlashCardService;
 import br.com.dolphinCards.service.GetAllFlashCardsForTheDayService;
 
@@ -58,5 +61,14 @@ public class FlashCardsController {
         return flashCards == null 
                 ? ResponseEntity.badRequest().build()
                 : ResponseEntity.ok().body(flashCards);
+    }
+
+    @PatchMapping("/answer/{flashCardId}") 
+    public ResponseEntity<FlashCardsDTO> answerFlashCard(@PathVariable("flashCardId") String flashCardId, @Valid @RequestBody AnswerFlashCardForm answerFlashCardForm) {
+        FlashCardsDTO flashCard = new AnswerFlashCardService(studentRepository, disciplineRepository, flashCardsRepository, flashCardId, answerFlashCardForm).run();
+
+        return flashCard == null 
+                ? ResponseEntity.badRequest().build()
+                : ResponseEntity.ok().body(flashCard);
     }
 }

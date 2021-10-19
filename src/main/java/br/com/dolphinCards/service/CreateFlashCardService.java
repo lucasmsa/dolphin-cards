@@ -34,7 +34,7 @@ public class CreateFlashCardService {
     }
 
     public FlashCardsDTO run() {
-        Optional<Student> optionalStudent = new CheckIfLoggedStudentExists().run(studentRepository);
+        Optional<Student> optionalStudent = new CheckIfLoggedStudentExistsService().run(studentRepository);
         if (optionalStudent == null) return null;
         
         Student student = optionalStudent.get();

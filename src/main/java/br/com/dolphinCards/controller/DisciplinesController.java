@@ -27,8 +27,8 @@ import br.com.dolphinCards.model.Discipline;
 import br.com.dolphinCards.repository.DisciplinesRepository;
 import br.com.dolphinCards.repository.StudentRepository;
 import br.com.dolphinCards.service.CreateDisciplineService;
-import br.com.dolphinCards.service.GetAllDisciplineFlashCards;
-import br.com.dolphinCards.service.GetAllStudentsDisciplines;
+import br.com.dolphinCards.service.GetAllDisciplineFlashCardsService;
+import br.com.dolphinCards.service.GetAllStudentsDisciplinesService;
 
 @RestController
 @RequestMapping("/discipline")
@@ -53,7 +53,7 @@ public class DisciplinesController {
     @GetMapping
     public ResponseEntity<List<DisciplineDTO>> fetchAllStudentDisciplines(@PageableDefault(sort = "name", direction = Direction.DESC, page=0, size=10) Pageable pagination) {
         
-        List<DisciplineDTO> disciplines = new GetAllStudentsDisciplines(studentRepository, disciplineRepository, pagination).run();
+        List<DisciplineDTO> disciplines = new GetAllStudentsDisciplinesService(studentRepository, disciplineRepository, pagination).run();
 
         return disciplines == null 
                 ? ResponseEntity.badRequest().build()
@@ -64,7 +64,7 @@ public class DisciplinesController {
     public ResponseEntity<List<FlashCardsDTO>> fetchAlDisciplineFlashCards(@PathVariable("name") String name,
     @PageableDefault(sort = "question", direction = Direction.DESC, page=0, size=10) Pageable pagination) {
         
-        List<FlashCardsDTO> flashCards = new GetAllDisciplineFlashCards(studentRepository, disciplineRepository, name, pagination).run();
+        List<FlashCardsDTO> flashCards = new GetAllDisciplineFlashCardsService(studentRepository, disciplineRepository, name, pagination).run();
 
         return flashCards == null 
                 ? ResponseEntity.badRequest().build()
