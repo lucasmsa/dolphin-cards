@@ -1,14 +1,11 @@
 package br.com.dolphinCards.service.FlashCards;
 
-import java.util.List;
 import java.util.Optional;
 
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.http.ResponseEntity;
 
-import br.com.dolphinCards.DTO.DisciplineDTO;
 import br.com.dolphinCards.DTO.FlashCardsDTO;
-import br.com.dolphinCards.DTO.StudentDTO;
-import br.com.dolphinCards.form.DisciplinesForm;
+import br.com.dolphinCards.errors.Exceptions;
 import br.com.dolphinCards.form.FlashCardsForm;
 import br.com.dolphinCards.model.Discipline;
 import br.com.dolphinCards.model.FlashCard;
@@ -34,24 +31,23 @@ public class CreateFlashCardService {
         this.flashCardsForm = flashCardsForm;
     }
 
-    public FlashCardsDTO run() {
+    public ResponseEntity<?> run() {
         Optional<Student> optionalStudent = new CheckIfLoggedStudentExistsService().run(studentRepository);
-        if (optionalStudent == null) return null;
+        if (optionalStudent == null) return new Exceptions().jwtUserTokenError();
         
         Student student = optionalStudent.get();
         Optional<Discipline> optionalDiscipline = disciplineRepository.findByName(flashCardsForm.getDisciplineName());
-        if (!optionalDiscipline.isPresent()) {
-            System.out.println("Discipline w/ that name does not exist");
-            return null;
-        }
+
+        if (!optionalDiscipline.isPresent()) return new Exceptions("Discipline with that name does not exist for user!", 404).throwException();
+
         Discipline discipline = optionalDiscipline.get();
-        if (discipline.getStudent() != student) {
-            System.out.println("You are not the creator of that discipline!");
-            return null;
-        }
+
+        if (discipline.getStudent() != student) return new Exceptions("You are not the creator of that discipline", 403).throwException();
+
         FlashCard flashCard = new FlashCard(flashCardsForm.getQuestion(), flashCardsForm.getAnswer(), discipline);
         FlashCard savedFlashCard = flashCardsRepository.save(flashCard);
+        FlashCardsDTO flashCardDTO = new FlashCardsDTO(savedFlashCard, discipline, student, false, false);
 
-        return new FlashCardsDTO(savedFlashCard, discipline, student, false, false);
+        return ResponseEntity.ok().body(flashCardDTO);
     }
 }

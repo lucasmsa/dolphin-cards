@@ -11,9 +11,8 @@ public class CheckIfLoggedStudentExistsService {
     public Optional<Student> run(StudentRepository studentRepository) {
         String studentEmail = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Optional<Student> optionalStudent = studentRepository.findByEmail(studentEmail);
-        // Student does not exist
+
         if (!optionalStudent.isPresent()) {
-            System.out.println("DOES NOT EXIST");
             return null;
         }
 

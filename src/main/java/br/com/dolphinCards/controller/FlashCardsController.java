@@ -18,10 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.dolphinCards.DTO.DisciplineDTO;
 import br.com.dolphinCards.DTO.FlashCardsDTO;
 import br.com.dolphinCards.form.AnswerFlashCardForm;
-import br.com.dolphinCards.form.DisciplinesForm;
 import br.com.dolphinCards.form.FlashCardsForm;
 
 import br.com.dolphinCards.repository.DisciplinesRepository;
@@ -34,7 +32,6 @@ import br.com.dolphinCards.service.FlashCards.GetAllFlashCardsForTheDayService;
 import br.com.dolphinCards.service.FlashCards.GetAllStudentFlashCardsService;
 import br.com.dolphinCards.service.FlashCards.GetSpecificFlashCardService;
 
-
 @RestController
 @RequestMapping("/flash-cards")
 public class FlashCardsController {
@@ -42,65 +39,40 @@ public class FlashCardsController {
     private DisciplinesRepository disciplineRepository;
     private FlashCardsRepository flashCardsRepository;
 
-    public FlashCardsController(StudentRepository studentRepository, DisciplinesRepository disciplineRepository, FlashCardsRepository flashCardsRepository) {
+    public FlashCardsController(StudentRepository studentRepository, DisciplinesRepository disciplineRepository,
+            FlashCardsRepository flashCardsRepository) {
         this.studentRepository = studentRepository;
         this.disciplineRepository = disciplineRepository;
         this.flashCardsRepository = flashCardsRepository;
     }
 
     @PostMapping
-    public ResponseEntity<FlashCardsDTO> createFlashCard(@Valid @RequestBody FlashCardsForm flashCardsForm) {
-        FlashCardsDTO flashCardDTO = new CreateFlashCardService(studentRepository, disciplineRepository, flashCardsRepository, flashCardsForm).run();
-        
-        return flashCardDTO == null
-               ? ResponseEntity.badRequest().build()
-               : ResponseEntity.ok().body(flashCardDTO);
-    }  
+    public ResponseEntity<?> createFlashCard(@Valid @RequestBody FlashCardsForm flashCardsForm) {
+        return new CreateFlashCardService(studentRepository, disciplineRepository, flashCardsRepository, flashCardsForm).run();
+    }
 
     @GetMapping("/today")
-    public ResponseEntity<List<FlashCardsDTO>> fetchAllTodayFlashCards(@RequestParam(required = false) String name,
-    @PageableDefault(sort = "question", direction = Direction.DESC, page=0, size=10) Pageable pagination) {
-        List<FlashCardsDTO> flashCards = new GetAllFlashCardsForTheDayService(studentRepository, flashCardsRepository, pagination).run();
-
-        return flashCards == null 
-                ? ResponseEntity.badRequest().build()
-                : ResponseEntity.ok().body(flashCards);
+    public ResponseEntity<?> fetchAllTodayFlashCards(@RequestParam(required = false) String name, @PageableDefault(sort = "question", direction = Direction.ASC, page = 0, size = 10) Pageable pagination) {
+        return new GetAllFlashCardsForTheDayService(studentRepository, flashCardsRepository, pagination).run();
     }
 
     @GetMapping
-    public ResponseEntity<List<FlashCardsDTO>> fetchAllStudentFlashCards(@RequestParam(required = false) String name,
-    @PageableDefault(sort = "question", direction = Direction.DESC, page=0, size=10) Pageable pagination) {
-        List<FlashCardsDTO> flashCards = new GetAllStudentFlashCardsService(studentRepository, flashCardsRepository, pagination).run();
-
-        return flashCards == null 
-                ? ResponseEntity.badRequest().build()
-                : ResponseEntity.ok().body(flashCards);
+    public ResponseEntity<?> fetchAllStudentFlashCards(@RequestParam(required = false) String name, @PageableDefault(sort = "question", direction = Direction.ASC, page = 0, size = 10) Pageable pagination) {
+        return new GetAllStudentFlashCardsService(studentRepository, flashCardsRepository, pagination).run();
     }
 
-    @GetMapping("/{flashCardId}") 
-    public ResponseEntity<FlashCardsDTO> fetchSpecificFlashCard(@PathVariable("flashCardId") String flashCardId) {
-        FlashCardsDTO flashCard = new GetSpecificFlashCardService(studentRepository, disciplineRepository, flashCardsRepository, flashCardId).run();
-
-        return flashCard == null 
-                ? ResponseEntity.badRequest().build()
-                : ResponseEntity.ok().body(flashCard);
+    @GetMapping("/{flashCardId}")
+    public ResponseEntity<?> fetchSpecificFlashCard(@PathVariable("flashCardId") String flashCardId) {
+        return new GetSpecificFlashCardService(studentRepository, flashCardsRepository, flashCardId).run();
     }
 
-    @DeleteMapping("/{flashCardId}") 
-    public ResponseEntity<FlashCardsDTO> deleteSpecificFlashCard(@PathVariable("flashCardId") String flashCardId) {
-        String flashCard = new DeleteFlashCardService(studentRepository, disciplineRepository, flashCardsRepository, flashCardId).run();
-
-        return flashCard == "NOT_PRESENT" 
-                ? ResponseEntity.badRequest().build()
-                : ResponseEntity.noContent().build();
+    @DeleteMapping("/{flashCardId}")
+    public ResponseEntity<?> deleteSpecificFlashCard(@PathVariable("flashCardId") String flashCardId) {
+        return new DeleteFlashCardService(studentRepository, flashCardsRepository, flashCardId).run();
     }
 
-    @PatchMapping("/answer/{flashCardId}") 
-    public ResponseEntity<FlashCardsDTO> answerFlashCard(@PathVariable("flashCardId") String flashCardId, @Valid @RequestBody AnswerFlashCardForm answerFlashCardForm) {
-        FlashCardsDTO flashCard = new AnswerFlashCardService(studentRepository, disciplineRepository, flashCardsRepository, flashCardId, answerFlashCardForm).run();
-
-        return flashCard == null 
-                ? ResponseEntity.badRequest().build()
-                : ResponseEntity.ok().body(flashCard);
+    @PatchMapping("/answer/{flashCardId}")
+    public ResponseEntity<?> answerFlashCard(@PathVariable("flashCardId") String flashCardId, @Valid @RequestBody AnswerFlashCardForm answerFlashCardForm) {
+        return new AnswerFlashCardService(studentRepository, flashCardsRepository, flashCardId, answerFlashCardForm).run();
     }
 }

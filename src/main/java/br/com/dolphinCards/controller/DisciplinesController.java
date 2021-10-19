@@ -44,37 +44,22 @@ public class DisciplinesController {
     }
 
     @PostMapping
-    public ResponseEntity<DisciplineDTO> createDiscipline(@Valid @RequestBody DisciplinesForm disciplinesForm) {
-        DisciplineDTO disciplineDTO = new CreateDisciplineService(studentRepository, disciplineRepository,
-                disciplinesForm).run();
-
-        return disciplineDTO == null ? ResponseEntity.badRequest().build() : ResponseEntity.ok().body(disciplineDTO);
+    public ResponseEntity<?> createDiscipline(@Valid @RequestBody DisciplinesForm disciplinesForm) {
+        return new CreateDisciplineService(studentRepository, disciplineRepository, disciplinesForm).run();
     }
 
     @GetMapping
-    public ResponseEntity<List<DisciplineDTO>> fetchAllStudentDisciplines(
-            @PageableDefault(sort = "name", direction = Direction.DESC, page = 0, size = 10) Pageable pagination) {
-
-        List<DisciplineDTO> disciplines = new GetAllStudentsDisciplinesService(studentRepository, disciplineRepository,
-                pagination).run();
-
-        return disciplines == null ? ResponseEntity.badRequest().build() : ResponseEntity.ok().body(disciplines);
+    public ResponseEntity<?> fetchAllStudentDisciplines(@PageableDefault(sort = "name", direction = Direction.ASC, page = 0, size = 10) Pageable pagination) {
+        return new GetAllStudentsDisciplinesService(studentRepository, disciplineRepository, pagination).run();
     }
 
     @DeleteMapping("/{disciplineId}")
-    public ResponseEntity<FlashCardsDTO> deleteSpecificDiscipline(@PathVariable("disciplineId") String disciplineId) {
-        String discipline = new DeleteDisciplineService(studentRepository, disciplineRepository, disciplineId).run();
-
-        return discipline == "NOT_PRESENT" ? ResponseEntity.badRequest().build() : ResponseEntity.noContent().build();
+    public ResponseEntity<?> deleteSpecificDiscipline(@PathVariable("disciplineId") String disciplineId) {
+        return new DeleteDisciplineService(studentRepository, disciplineRepository, disciplineId).run();
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<List<FlashCardsDTO>> fetchAllDisciplineFlashCards(@PathVariable("name") String name,
-            @PageableDefault(sort = "question", direction = Direction.DESC, page = 0, size = 10) Pageable pagination) {
-
-        List<FlashCardsDTO> flashCards = new GetAllDisciplineFlashCardsService(studentRepository, disciplineRepository,
-                name, pagination).run();
-
-        return flashCards == null ? ResponseEntity.badRequest().build() : ResponseEntity.ok().body(flashCards);
+    public ResponseEntity<?> fetchAllDisciplineFlashCards(@PathVariable("name") String name, @PageableDefault(sort = "question", direction = Direction.ASC, page = 0, size = 10) Pageable pagination) {
+        return new GetAllDisciplineFlashCardsService(studentRepository, disciplineRepository, name, pagination).run();
     }
 }

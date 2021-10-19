@@ -2,8 +2,14 @@ package br.com.dolphinCards.service.Students;
 
 import br.com.dolphinCards.model.Student;
 import br.com.dolphinCards.DTO.StudentDTO;
+import br.com.dolphinCards.errors.Exceptions;
 import br.com.dolphinCards.form.SignUpForm;
 import br.com.dolphinCards.repository.StudentRepository;
+
+import java.util.Date;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class SignUpService {
@@ -19,16 +25,15 @@ public class SignUpService {
         this.signUpForm = signUpForm;
     }
     
-    public StudentDTO run() {
+    public ResponseEntity<?> run() {
         boolean emailAlreadyExists = this.studentRepository.findByEmail(signUpForm.getEmail()).isPresent();
-        if (emailAlreadyExists) {
-            return null;
-        }
+        if (emailAlreadyExists) return new Exceptions("Student with this e-mail already exists", 409).throwException();
+        
         String rawPassword = signUpForm.getPassword();
         String encodedPassword = this.passwordEncoder.encode(rawPassword);
         Student savedStudent = studentRepository.save(new Student(signUpForm, encodedPassword));
         StudentDTO studentDTO = new StudentDTO(savedStudent); 
 
-        return studentDTO;
+        return ResponseEntity.status(HttpStatus.CREATED).body(studentDTO);
     }
 }

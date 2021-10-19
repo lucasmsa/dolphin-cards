@@ -1,16 +1,10 @@
 package br.com.dolphinCards.service.Disciplines;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.http.ResponseEntity;
 
-import br.com.dolphinCards.DTO.DisciplineDTO;
-import br.com.dolphinCards.DTO.StudentDTO;
-import br.com.dolphinCards.form.DisciplinesForm;
+import br.com.dolphinCards.errors.Exceptions;
 import br.com.dolphinCards.model.Discipline;
 import br.com.dolphinCards.model.Student;
 import br.com.dolphinCards.repository.DisciplinesRepository;
@@ -22,22 +16,20 @@ public class DeleteDisciplineService {
     private DisciplinesRepository disciplineRepository;
     private String disciplineId;
 
-    public DeleteDisciplineService(StudentRepository studentRepository, 
-                                   DisciplinesRepository disciplineRepository,
-                                   String disciplineId
-                                    ) {
+    public DeleteDisciplineService(StudentRepository studentRepository, DisciplinesRepository disciplineRepository, String disciplineId) {
         this.studentRepository = studentRepository;
         this.disciplineRepository = disciplineRepository;
         this.disciplineId = disciplineId;
     }
 
-    public String run() {
+    public ResponseEntity<?> run() {
         Optional<Student> optionalStudent = new CheckIfLoggedStudentExistsService().run(studentRepository);
-        if (optionalStudent == null) return "NOT_PRESENT";
+        if (optionalStudent == null) return new Exceptions().jwtUserTokenError();
+
         Student student = optionalStudent.get();
 
         Optional<Discipline> discipline = disciplineRepository.findDisciplineByIdAndStudentId(disciplineId, student.getId());
-        if(!discipline.isPresent()) return "NOT_PRESENT";
+        if (!discipline.isPresent()) return new Exceptions("Discipline with this ID does not exist for user", 404).throwException();
 
         disciplineRepository.deleteById(disciplineId);
 
