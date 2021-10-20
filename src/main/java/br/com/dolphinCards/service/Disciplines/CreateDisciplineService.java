@@ -25,14 +25,14 @@ public class CreateDisciplineService {
     }
 
     public ResponseEntity<?> run() {
-        Optional<Student> optionalStudent = new CheckIfLoggedStudentExistsService().run(studentRepository);
+        Optional<Student> optionalStudent = new CheckIfLoggedStudentExistsService(studentRepository).run();
         if (optionalStudent == null) return new Exceptions().jwtUserTokenError();
 
         Student student = optionalStudent.get();
         Discipline discipline = new Discipline(disciplinesForm.getName(), student);
-        List<Discipline> disciplineWithTheSameName = disciplineRepository.findAllByDisciplineNameAndStudent(disciplinesForm.getName(), student.getId());
+        Optional<Discipline> disciplineWithTheSameName = disciplineRepository.findByDisciplineNameAndStudent(disciplinesForm.getName(), student.getId());
 
-        if (disciplineWithTheSameName.size() > 0) {
+        if (disciplineWithTheSameName.isPresent()) {
             return new Exceptions("Discipline with that name already exists for user!", 409).throwException();
         }
 

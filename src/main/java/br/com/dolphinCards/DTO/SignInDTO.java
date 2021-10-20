@@ -3,6 +3,10 @@ package br.com.dolphinCards.DTO;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.transaction.Transactional;
+
+import org.springframework.cache.annotation.CacheEvict;
+
 import br.com.dolphinCards.model.Student;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,12 +25,3 @@ public class SignInDTO {
         this.token = token;
     }
 }
-
-// {
-//     user: {
-//         id: 1,
-//         name: "oi",
-//         email: "oi@email.com"
-//     },
-//     token: "8392u2dha9iud"
-// }

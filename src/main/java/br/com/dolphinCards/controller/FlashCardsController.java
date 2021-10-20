@@ -2,6 +2,7 @@ package br.com.dolphinCards.controller;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.springframework.data.domain.Pageable;
@@ -67,11 +68,13 @@ public class FlashCardsController {
     }
 
     @DeleteMapping("/{flashCardId}")
+    @Transactional
     public ResponseEntity<?> deleteSpecificFlashCard(@PathVariable("flashCardId") String flashCardId) {
         return new DeleteFlashCardService(studentRepository, flashCardsRepository, flashCardId).run();
     }
 
     @PatchMapping("/answer/{flashCardId}")
+    @Transactional
     public ResponseEntity<?> answerFlashCard(@PathVariable("flashCardId") String flashCardId, @Valid @RequestBody AnswerFlashCardForm answerFlashCardForm) {
         return new AnswerFlashCardService(studentRepository, flashCardsRepository, flashCardId, answerFlashCardForm).run();
     }

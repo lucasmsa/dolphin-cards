@@ -7,12 +7,9 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import br.com.dolphinCards.DTO.DisciplineDTO;
-import br.com.dolphinCards.DTO.StudentDTO;
 import br.com.dolphinCards.errors.Exceptions;
-import br.com.dolphinCards.form.DisciplinesForm;
 import br.com.dolphinCards.model.Discipline;
 import br.com.dolphinCards.model.Student;
 import br.com.dolphinCards.repository.DisciplinesRepository;
@@ -35,7 +32,7 @@ public class GetAllStudentsDisciplinesService {
     }
     
     public ResponseEntity<?> run() {
-        Optional<Student> optionalStudent = new CheckIfLoggedStudentExistsService().run(studentRepository);
+        Optional<Student> optionalStudent = new CheckIfLoggedStudentExistsService(studentRepository).run();
         if (optionalStudent == null) return new Exceptions().jwtUserTokenError();
         
         Student student = optionalStudent.get();

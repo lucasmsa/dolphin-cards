@@ -28,7 +28,7 @@ public class GetSpecificFlashCardService {
     }
 
     public ResponseEntity<?> run() {
-        Optional<Student> optionalStudent = new CheckIfLoggedStudentExistsService().run(studentRepository);
+        Optional<Student> optionalStudent = new CheckIfLoggedStudentExistsService(studentRepository).run();
         if (optionalStudent == null) return new Exceptions().jwtUserTokenError();
 
         Student student = optionalStudent.get();

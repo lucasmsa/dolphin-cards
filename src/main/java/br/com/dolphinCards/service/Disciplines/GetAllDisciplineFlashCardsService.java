@@ -32,18 +32,18 @@ public class GetAllDisciplineFlashCardsService {
     }
     
     public ResponseEntity<?> run() {
-        Optional<Student> optionalStudent = new CheckIfLoggedStudentExistsService().run(studentRepository);
+        Optional<Student> optionalStudent = new CheckIfLoggedStudentExistsService(studentRepository).run();
         if (optionalStudent == null) return new Exceptions().jwtUserTokenError();
     
         Student student = optionalStudent.get();
 
-        List<Discipline> discipline = disciplineRepository.findAllByDisciplineNameAndStudent(disciplineName, student.getId());
+        Optional<Discipline> discipline = disciplineRepository.findByDisciplineNameAndStudent(disciplineName, student.getId());
 
-        if (discipline.size() == 0) {
+        if (!discipline.isPresent()) {
             return new Exceptions("Discipline with that name does not exists!", 404).throwException();
         }
 
-        List<Object> disciplineFlashCards = disciplineRepository.findAllFlashCardsFromDiscipline(discipline.get(0).getId(), student.getId(), pagination).toList();
+        List<Object> disciplineFlashCards = disciplineRepository.findAllFlashCardsFromDiscipline(discipline.get().getId(), student.getId(), pagination).toList();
         List<FlashCardsDTO> flashCardsDTO = new FlashCardsDTO().objectFieldsToFlashCardsDTO(disciplineFlashCards);
         
         return ResponseEntity.ok().body(flashCardsDTO);

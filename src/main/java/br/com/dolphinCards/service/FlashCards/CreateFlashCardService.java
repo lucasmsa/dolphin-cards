@@ -1,5 +1,6 @@
 package br.com.dolphinCards.service.FlashCards;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
@@ -32,17 +33,15 @@ public class CreateFlashCardService {
     }
 
     public ResponseEntity<?> run() {
-        Optional<Student> optionalStudent = new CheckIfLoggedStudentExistsService().run(studentRepository);
+        Optional<Student> optionalStudent = new CheckIfLoggedStudentExistsService(studentRepository).run();
         if (optionalStudent == null) return new Exceptions().jwtUserTokenError();
         
         Student student = optionalStudent.get();
-        Optional<Discipline> optionalDiscipline = disciplineRepository.findByName(flashCardsForm.getDisciplineName());
+        Optional<Discipline> optionalDiscipline = disciplineRepository.findByDisciplineNameAndStudent(flashCardsForm.getDisciplineName(), student.getId());
 
         if (!optionalDiscipline.isPresent()) return new Exceptions("Discipline with that name does not exist for user!", 404).throwException();
 
         Discipline discipline = optionalDiscipline.get();
-
-        if (discipline.getStudent() != student) return new Exceptions("You are not the creator of that discipline", 403).throwException();
 
         FlashCard flashCard = new FlashCard(flashCardsForm.getQuestion(), flashCardsForm.getAnswer(), discipline);
         FlashCard savedFlashCard = flashCardsRepository.save(flashCard);

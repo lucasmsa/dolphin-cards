@@ -3,9 +3,12 @@ package br.com.dolphinCards.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.apache.catalina.connector.Response;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
@@ -44,16 +47,21 @@ public class DisciplinesController {
     }
 
     @PostMapping
+    @Transactional
+    @CacheEvict(value = "studentDisciplines", allEntries = true)
     public ResponseEntity<?> createDiscipline(@Valid @RequestBody DisciplinesForm disciplinesForm) {
         return new CreateDisciplineService(studentRepository, disciplineRepository, disciplinesForm).run();
     }
 
     @GetMapping
+    @Cacheable(value = "studentDisciplines")
     public ResponseEntity<?> fetchAllStudentDisciplines(@PageableDefault(sort = "name", direction = Direction.ASC, page = 0, size = 10) Pageable pagination) {
         return new GetAllStudentsDisciplinesService(studentRepository, disciplineRepository, pagination).run();
     }
 
     @DeleteMapping("/{disciplineId}")
+    @Transactional
+    @CacheEvict(value = "studentDisciplines", allEntries = true)
     public ResponseEntity<?> deleteSpecificDiscipline(@PathVariable("disciplineId") String disciplineId) {
         return new DeleteDisciplineService(studentRepository, disciplineRepository, disciplineId).run();
     }
