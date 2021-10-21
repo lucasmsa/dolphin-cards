@@ -14,6 +14,9 @@ public interface FlashCardsRepository extends JpaRepository<FlashCard, String> {
        @Query(value = "SELECT * FROM FLASH_CARDS as fc JOIN DISCIPLINES as d ON fc.discipline_id = d.id JOIN STUDENTS as s ON d.student_id = s.id  where s.id = ?1 and fc.next_answer_date <= ?2", countQuery = "SELECT count(*) FROM FLASH_CARDS as fc JOIN DISCIPLINES as d ON fc.discipline_id = d.id JOIN STUDENTS as s ON d.student_id = s.id  where s.id = ?1 and fc.next_answer_date <= ?2", nativeQuery = true)
        public Page<FlashCard> findAllFlashCardsForTheDay(String studentId, Date date, Pageable pageable);
 
+       @Query(value = "SELECT count(*) FROM FLASH_CARDS as fc JOIN DISCIPLINES as d ON fc.discipline_id = d.id JOIN STUDENTS as s ON d.student_id = s.id  where s.id = ?1 and fc.next_answer_date <= ?2", nativeQuery = true)
+       public long countFlashCardsForTheDay(String studentId, Date date);
+
        @Query(value = "select * FROM flash_cards as fc JOIN disciplines as d ON fc.discipline_id = d.id JOIN STUDENTS as s ON d.student_id = s.id WHERE d.student_id = ?1 and FC.id = ?2", nativeQuery = true)
        public Optional<FlashCard> findStudentFlashCardById(String studentId, String flashCardId);
 

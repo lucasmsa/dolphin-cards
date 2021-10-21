@@ -29,6 +29,7 @@ import br.com.dolphinCards.repository.StudentRepository;
 import br.com.dolphinCards.service.FlashCards.AnswerFlashCardService;
 import br.com.dolphinCards.service.FlashCards.CreateFlashCardService;
 import br.com.dolphinCards.service.FlashCards.DeleteFlashCardService;
+import br.com.dolphinCards.service.FlashCards.FetchStudentsEmailAndQuantityOfFlashCardsForTheDayService;
 import br.com.dolphinCards.service.FlashCards.GetAllFlashCardsForTheDayService;
 import br.com.dolphinCards.service.FlashCards.GetAllStudentFlashCardsService;
 import br.com.dolphinCards.service.FlashCards.GetSpecificFlashCardService;
@@ -50,6 +51,11 @@ public class FlashCardsController {
     @PostMapping
     public ResponseEntity<?> createFlashCard(@Valid @RequestBody FlashCardsForm flashCardsForm) {
         return new CreateFlashCardService(studentRepository, disciplineRepository, flashCardsRepository, flashCardsForm).run();
+    }
+
+    @PostMapping("/send-email")
+    public void sendQuantityOfFlashCardsForTheDay() {
+        new FetchStudentsEmailAndQuantityOfFlashCardsForTheDayService(studentRepository, disciplineRepository, flashCardsRepository).run();
     }
 
     @GetMapping("/today")
