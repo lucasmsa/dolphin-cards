@@ -1,5 +1,6 @@
 package br.com.dolphinCards.DTO;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import br.com.dolphinCards.model.Discipline;
@@ -30,15 +32,21 @@ public class FlashCardsDTO {
 
     private int timesAnswered;
 
+    @JsonIgnore
+    private SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private DisciplineDTO discipline;
 
     public String dateToString(Date date) {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");  
         String strDate = formatter.format(date);  
         return strDate;
     }
-    
+
+    public Date nextAnswerDateStringToDate() throws ParseException {
+        return formatter.parse(this.nextAnswerDate);
+    }
+     
     public FlashCardsDTO(String id, String question, String answer, int timesAnswered, Date nextAnswerDate) { 
         this.id = id;
         this.question = question;

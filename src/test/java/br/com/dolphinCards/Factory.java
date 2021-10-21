@@ -3,6 +3,8 @@ package br.com.dolphinCards;
 import java.util.Date;
 import java.util.HashSet;
 
+import org.joda.time.DateTime;
+
 import br.com.dolphinCards.form.FlashCardsForm;
 import br.com.dolphinCards.model.Discipline;
 import br.com.dolphinCards.model.FlashCard;
@@ -15,6 +17,10 @@ public class Factory {
 
     public FlashCard flashCardBuilder() {
         return new FlashCard("1", "Pi with 2 decimal points", "3.14", new Date(), 0, disciplineBuilder());
+    }
+
+    public FlashCard futureFlashCardBuilder() {
+        return new FlashCard("2", "How to calculate the volume of a cylinder?", "Pi*R^2*h", new DateTime(new Date()).plusDays(10).toDate(), 0, disciplineBuilder());
     }
 
     public Student studentBuilder() {

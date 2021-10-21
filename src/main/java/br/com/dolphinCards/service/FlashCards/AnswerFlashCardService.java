@@ -39,7 +39,7 @@ public class AnswerFlashCardService {
         Student student = optionalStudent.get();
 
         Optional<FlashCard> optionalFlashCard = flashCardsRepository.findStudentFlashCardById(student.getId(), flashCardId);
-        if (!optionalFlashCard.isPresent()) return new Exceptions("Flash card w/ that id does not exist for user", 400).throwException();
+        if (!optionalFlashCard.isPresent()) return new Exceptions("Flash card with that id does not exist for user", 404).throwException();
         
         FlashCard flashCard = optionalFlashCard.get();
 
@@ -55,7 +55,7 @@ public class AnswerFlashCardService {
         }
 
         FlashCard savedFlashCard = nextAnswerDateTodayOrBefore ? flashCardsRepository.save(flashCard) : flashCard;
-        
+
         FlashCardsDTO flashCardsDTO = new FlashCardsDTO(savedFlashCard, savedFlashCard.getDiscipline(), savedFlashCard.getDiscipline().getStudent(), false, false);
         return ResponseEntity.ok().body(flashCardsDTO);
     }

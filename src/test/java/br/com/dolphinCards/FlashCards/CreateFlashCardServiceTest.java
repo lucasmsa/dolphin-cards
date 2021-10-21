@@ -85,8 +85,8 @@ public class CreateFlashCardServiceTest {
 
     @Test
     void shouldReturnAnErrorIfDisciplineDoesNotExistForTheGivenUserTest() {
-        FlashCardsForm flashCardsForm = factory.flashCardFormBuilder();
         Student student = factory.studentBuilder();
+        FlashCardsForm flashCardsForm = factory.flashCardFormBuilder();
         when(studentRepository.findByEmail(Mockito.any())).thenReturn(Optional.of(student));
         when(disciplineRepository.findByDisciplineNameAndStudent("Mathematics", student.getId())).thenReturn(Optional.empty());
         
@@ -99,10 +99,10 @@ public class CreateFlashCardServiceTest {
 
     @Test
     void shouldSuccessfullyCreateAFlashCardTest() {
-        FlashCardsForm flashCardsForm = factory.flashCardFormBuilder();
         Student student = factory.studentBuilder();
-        Discipline discipline = factory.disciplineBuilder();
         FlashCard flashCard = factory.flashCardBuilder();
+        Discipline discipline = factory.disciplineBuilder();
+        FlashCardsForm flashCardsForm = factory.flashCardFormBuilder();
         when(studentRepository.findByEmail(Mockito.any())).thenReturn(Optional.of(student));
         when(disciplineRepository.findByDisciplineNameAndStudent("Mathematics", student.getId())).thenReturn(Optional.of(discipline));
         when(flashCardsRepository.save(Mockito.any(FlashCard.class))).thenReturn(flashCard);
