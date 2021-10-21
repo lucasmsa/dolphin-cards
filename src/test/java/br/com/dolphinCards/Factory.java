@@ -1,7 +1,9 @@
 package br.com.dolphinCards;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 
 import org.joda.time.DateTime;
 
@@ -27,7 +29,17 @@ public class Factory {
         return new Student("1", "test", "test@mail.com", "123456", new HashSet<Discipline>());
     }
 
+    public List<FlashCard> listOfFlashCardsBuilder() {
+        FlashCard firstFlashCard = flashCardBuilder();
+        FlashCard secondFlashCard = futureFlashCardBuilder();
+        List<FlashCard> flashCards = new ArrayList<>();
+        flashCards.add(firstFlashCard);
+        flashCards.add(secondFlashCard);
+
+        return flashCards;
+    }
+
     public Discipline disciplineBuilder() {
-        return new Discipline("Mathematics", studentBuilder());
+        return new Discipline("1", "Mathematics", studentBuilder(), new HashSet<FlashCard>());
     }
 }

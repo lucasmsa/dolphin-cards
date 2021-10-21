@@ -1,5 +1,6 @@
 package br.com.dolphinCards.security;
 
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,6 +12,8 @@ import br.com.dolphinCards.model.Student;
 import br.com.dolphinCards.repository.StudentRepository;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
     private StudentRepository studentRepository;
@@ -20,6 +23,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
+    @Transactional
+    @CacheEvict(value = "studentDisciplines", allEntries = true)
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException, DataAccessException{
         Optional<Student> domainStudent = studentRepository.findByEmail(email);
         if (!domainStudent.isPresent()) {

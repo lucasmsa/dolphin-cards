@@ -36,7 +36,9 @@ public class CreateDisciplineService {
             return new Exceptions("Discipline with that name already exists for user!", 409).throwException();
         }
 
+        System.out.println("MEDICINA " + discipline);
         Discipline savedDiscipline = disciplineRepository.save(discipline);
+
         DisciplineDTO disciplineDTO = new DisciplineDTO(savedDiscipline, student, false);
 
         return ResponseEntity.ok().body(disciplineDTO);
