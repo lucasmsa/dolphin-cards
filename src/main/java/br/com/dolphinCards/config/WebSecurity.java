@@ -10,6 +10,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import br.com.dolphinCards.config.filters.JWTAuthenticationFilter;
 import br.com.dolphinCards.config.filters.JWTAuthorizationFilter;
+import br.com.dolphinCards.constants.SwaggerConstants;
 import br.com.dolphinCards.security.UserDetailsServiceImpl;
 
 @EnableWebSecurity
@@ -29,6 +30,8 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
         .authorizeRequests()
         .antMatchers(HttpMethod.POST, "/auth/**").permitAll()
+        .antMatchers(SwaggerConstants.SWAGGER_URL1, SwaggerConstants.SWAGGER_URL2,
+                        SwaggerConstants.SWAGGER_URL3, SwaggerConstants.SWAGGER_URL4).permitAll()
         .anyRequest().authenticated()
         .and()
         .addFilter(new JWTAuthenticationFilter(authenticationManager()))
