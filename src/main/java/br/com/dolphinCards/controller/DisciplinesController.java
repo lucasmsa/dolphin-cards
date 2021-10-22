@@ -34,9 +34,12 @@ import br.com.dolphinCards.service.Disciplines.CreateDisciplineService;
 import br.com.dolphinCards.service.Disciplines.DeleteDisciplineService;
 import br.com.dolphinCards.service.Disciplines.GetAllDisciplineFlashCardsService;
 import br.com.dolphinCards.service.Disciplines.GetAllStudentsDisciplinesService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping("/discipline")
+@Api(value = "Disciplines", description = "REST Controller for Disciplines content", tags = { "Disciplines" })
 public class DisciplinesController {
     private StudentRepository studentRepository;
     private DisciplinesRepository disciplineRepository;
@@ -49,12 +52,16 @@ public class DisciplinesController {
     @PostMapping
     @Transactional
     @CacheEvict(value = "studentDisciplines", allEntries = true)
+    @ApiOperation(value="Creates a new discipline by providing a DisciplinesForm", 
+                  tags = { "Disciplines" })
     public ResponseEntity<?> createDiscipline(@Valid @RequestBody DisciplinesForm disciplinesForm) {
         return new CreateDisciplineService(studentRepository, disciplineRepository, disciplinesForm).run();
     }
 
     @GetMapping
     @Cacheable(value = "studentDisciplines")
+    @ApiOperation(value="Gets all the disciplines from the currently logged student", 
+                  tags = { "Disciplines" })
     public ResponseEntity<?> fetchAllStudentDisciplines(@PageableDefault(sort = "name", direction = Direction.ASC, page = 0, size = 10) Pageable pagination) {
         return new GetAllStudentsDisciplinesService(studentRepository, disciplineRepository, pagination).run();
     }
@@ -62,11 +69,15 @@ public class DisciplinesController {
     @DeleteMapping("/{disciplineId}")
     @Transactional
     @CacheEvict(value = "studentDisciplines", allEntries = true)
+    @ApiOperation(value="Deletes a discipline by providing the id of a valid discipline of the student", 
+                  tags = { "Disciplines" })
     public ResponseEntity<?> deleteSpecificDiscipline(@PathVariable("disciplineId") String disciplineId) {
         return new DeleteDisciplineService(studentRepository, disciplineRepository, disciplineId).run();
     }
 
     @GetMapping("/{name}")
+    @ApiOperation(value="Gets all flash cards related to a single discipline", 
+                  tags = { "Disciplines" })
     public ResponseEntity<?> fetchAllDisciplineFlashCards(@PathVariable("name") String name, @PageableDefault(sort = "question", direction = Direction.ASC, page = 0, size = 10) Pageable pagination) {
         return new GetAllDisciplineFlashCardsService(studentRepository, disciplineRepository, name, pagination).run();
     }

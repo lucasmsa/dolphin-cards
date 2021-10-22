@@ -1,5 +1,6 @@
 package br.com.dolphinCards.model;
 
+import io.swagger.annotations.ApiModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ApiModel(value = "Send Student Mail", description = "Necessary data to be fetched from the database to send to the external API")
 public class SendStudentsMail {
     private String id;
 

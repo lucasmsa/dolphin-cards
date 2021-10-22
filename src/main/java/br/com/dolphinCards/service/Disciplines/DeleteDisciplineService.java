@@ -3,6 +3,7 @@ package br.com.dolphinCards.service.Disciplines;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import br.com.dolphinCards.errors.Exceptions;
 import br.com.dolphinCards.model.Discipline;

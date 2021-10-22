@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import br.com.dolphinCards.DTO.DisciplineDTO;
 import br.com.dolphinCards.errors.Exceptions;
@@ -15,7 +16,6 @@ import br.com.dolphinCards.model.Student;
 import br.com.dolphinCards.repository.DisciplinesRepository;
 import br.com.dolphinCards.repository.StudentRepository;
 import br.com.dolphinCards.service.Students.CheckIfLoggedStudentExistsService;
-
 
 public class GetAllStudentsDisciplinesService {
     private StudentRepository studentRepository;
