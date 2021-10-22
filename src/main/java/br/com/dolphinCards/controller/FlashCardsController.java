@@ -53,11 +53,6 @@ public class FlashCardsController {
         return new CreateFlashCardService(studentRepository, disciplineRepository, flashCardsRepository, flashCardsForm).run();
     }
 
-    @PostMapping("/send-email")
-    public ResponseEntity<?> sendQuantityOfFlashCardsForTheDay() {
-        return new SendStudentsEmailWithFlashCardsForTheDayService(studentRepository, disciplineRepository, flashCardsRepository).run();
-    }
-
     @GetMapping("/today")
     public ResponseEntity<?> fetchAllTodayFlashCards(@RequestParam(required = false) String name, @PageableDefault(sort = "question", direction = Direction.ASC, page = 0, size = 10) Pageable pagination) {
         return new GetAllFlashCardsForTheDayService(studentRepository, flashCardsRepository, pagination).run();

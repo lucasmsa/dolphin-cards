@@ -11,7 +11,6 @@ import br.com.dolphinCards.errors.Exceptions;
 import br.com.dolphinCards.model.MailParameters;
 import br.com.dolphinCards.model.MailResponse;
 
-@Service
 public class EmailSenderAdapter {
     public ResponseEntity<?> forward(MailParameters mailParameters) {
         try {

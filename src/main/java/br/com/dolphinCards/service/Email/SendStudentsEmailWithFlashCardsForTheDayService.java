@@ -6,6 +6,9 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import br.com.dolphinCards.adapter.EmailSenderAdapter;
@@ -17,7 +20,8 @@ import br.com.dolphinCards.repository.DisciplinesRepository;
 import br.com.dolphinCards.repository.FlashCardsRepository;
 import br.com.dolphinCards.repository.StudentRepository;
 
-@Service
+@Component
+@EnableAsync
 public class SendStudentsEmailWithFlashCardsForTheDayService {
     private StudentRepository studentRepository;
     private FlashCardsRepository flashCardsRepository;
@@ -31,6 +35,7 @@ public class SendStudentsEmailWithFlashCardsForTheDayService {
         this.flashCardsRepository = flashCardsRepository;
     }
 
+    @Scheduled(cron = "0 0 8 * * ?")
     public ResponseEntity<?> run() {
         List<?> studentsObjects = studentRepository.findAllStudentEmails();
         for (Object studentObject : studentsObjects) {
@@ -42,12 +47,6 @@ public class SendStudentsEmailWithFlashCardsForTheDayService {
             if (emailSenderAdapterThrownException) {
                 this.mailSenderException = emailSenderAdapter;
                 break;
-            }
-
-            try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (InterruptedException e) {
-                return new Exceptions("Interrupted Exception from mail sending delay", 500).throwException();
             }
         }
 
