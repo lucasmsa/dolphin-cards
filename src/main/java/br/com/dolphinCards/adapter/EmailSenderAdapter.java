@@ -6,13 +6,10 @@ import com.google.gson.JsonParser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import br.com.dolphinCards.errors.Exceptions;
 import br.com.dolphinCards.model.MailParameters;
 import br.com.dolphinCards.model.MailResponse;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 @Component
 public class EmailSenderAdapter {

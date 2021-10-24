@@ -2,24 +2,18 @@ package br.com.dolphinCards.service.Email;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import br.com.dolphinCards.adapter.EmailSenderAdapter;
 import br.com.dolphinCards.model.MailParameters;
 import br.com.dolphinCards.model.MailResponse;
 import br.com.dolphinCards.model.SendStudentsMail;
-import br.com.dolphinCards.model.Student;
-import br.com.dolphinCards.repository.DisciplinesRepository;
 import br.com.dolphinCards.repository.FlashCardsRepository;
 import br.com.dolphinCards.repository.StudentRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @Service     

@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.joda.time.DateTime;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 
 import br.com.dolphinCards.DTO.FlashCardsDTO;
 import br.com.dolphinCards.constants.PlusDaysConstants;

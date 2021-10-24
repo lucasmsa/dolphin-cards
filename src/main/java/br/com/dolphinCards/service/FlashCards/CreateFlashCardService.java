@@ -1,6 +1,5 @@
 package br.com.dolphinCards.service.FlashCards;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;

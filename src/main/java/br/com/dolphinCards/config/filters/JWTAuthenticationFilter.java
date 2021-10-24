@@ -19,8 +19,6 @@ import br.com.dolphinCards.DTO.SignInDTO;
 import br.com.dolphinCards.constants.SecurityConstants;
 import br.com.dolphinCards.model.Student;
 import br.com.dolphinCards.security.UserDetailsImpl;
-import javax.cache.Cache;
-import javax.cache.Caching;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter{
     

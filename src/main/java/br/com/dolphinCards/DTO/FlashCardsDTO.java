@@ -2,11 +2,9 @@ package br.com.dolphinCards.DTO;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;

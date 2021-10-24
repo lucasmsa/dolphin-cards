@@ -1,7 +1,5 @@
 package br.com.dolphinCards.controller;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
@@ -19,14 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.dolphinCards.DTO.FlashCardsDTO;
 import br.com.dolphinCards.form.AnswerFlashCardForm;
 import br.com.dolphinCards.form.FlashCardsForm;
-
 import br.com.dolphinCards.repository.DisciplinesRepository;
 import br.com.dolphinCards.repository.FlashCardsRepository;
 import br.com.dolphinCards.repository.StudentRepository;
-import br.com.dolphinCards.service.Email.SendStudentsEmailWithFlashCardsForTheDayService;
 import br.com.dolphinCards.service.FlashCards.AnswerFlashCardService;
 import br.com.dolphinCards.service.FlashCards.CreateFlashCardService;
 import br.com.dolphinCards.service.FlashCards.DeleteFlashCardService;
