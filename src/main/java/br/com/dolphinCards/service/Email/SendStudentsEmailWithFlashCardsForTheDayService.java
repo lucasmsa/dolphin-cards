@@ -3,6 +3,7 @@ package br.com.dolphinCards.service.Email;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,9 +17,12 @@ import br.com.dolphinCards.repository.DisciplinesRepository;
 import br.com.dolphinCards.repository.FlashCardsRepository;
 import br.com.dolphinCards.repository.StudentRepository;
 
-@Component
+@Component      
 @EnableAsync
 public class SendStudentsEmailWithFlashCardsForTheDayService {
+    @Value("${external.api.uri}")
+    private String mailSenderApiUrl;
+
     private StudentRepository studentRepository;
     private FlashCardsRepository flashCardsRepository;
     private ResponseEntity<?> mailSenderException = null;
@@ -31,14 +35,14 @@ public class SendStudentsEmailWithFlashCardsForTheDayService {
         this.flashCardsRepository = flashCardsRepository;
     }
 
-    @Scheduled(cron = "0 0 8 * * ?")
+    @Scheduled(cron = "* 0 8 * * ?")
     public ResponseEntity<?> run() {
         List<?> studentsObjects = studentRepository.findAllStudentEmails();
         for (Object studentObject : studentsObjects) {
             SendStudentsMail student = new SendStudentsMail().objectFieldsToSendStudentsMail(studentObject);
             Long flashCardsForTheDay = flashCardsRepository.countFlashCardsForTheDay(student.getId(), new Date());
             MailParameters mailParameters = new MailParameters(student.getName(), student.getEmail(), flashCardsForTheDay);
-            ResponseEntity<?> emailSenderAdapter = new EmailSenderAdapter().forward(mailParameters);
+            ResponseEntity<?> emailSenderAdapter = new EmailSenderAdapter(mailSenderApiUrl).forward(mailParameters);
             boolean emailSenderAdapterThrownException = emailSenderAdapter.getStatusCodeValue() == 400 || emailSenderAdapter.getStatusCodeValue() == 503;
             if (emailSenderAdapterThrownException) {
                 this.mailSenderException = emailSenderAdapter;
