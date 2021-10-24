@@ -35,21 +35,16 @@ import br.com.dolphinCards.service.FlashCards.GetAllStudentFlashCardsService;
 import br.com.dolphinCards.service.FlashCards.GetSpecificFlashCardService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/flash-cards")
+@AllArgsConstructor
 @Api(value = "FlashCards", description = "REST Controller for Flash Cards content", tags = { "FlashCards" })
 public class FlashCardsController {
     private StudentRepository studentRepository;
     private DisciplinesRepository disciplineRepository;
     private FlashCardsRepository flashCardsRepository;
-
-    public FlashCardsController(StudentRepository studentRepository, DisciplinesRepository disciplineRepository,
-            FlashCardsRepository flashCardsRepository) {
-        this.studentRepository = studentRepository;
-        this.disciplineRepository = disciplineRepository;
-        this.flashCardsRepository = flashCardsRepository;
-    }
 
     @PostMapping
     @ApiOperation(value="Creates a new flash cards by providing a FlashCardsForm, notice that the `disciplineName` provided must be of a valid discipline name from the logged user", 

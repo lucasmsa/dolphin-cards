@@ -30,6 +30,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
         .authorizeRequests()
         .antMatchers(HttpMethod.POST, "/auth/**").permitAll()
+        .antMatchers(HttpMethod.POST, "/send-mail").authenticated()
         .antMatchers(SwaggerConstants.SWAGGER_URL1, SwaggerConstants.SWAGGER_URL2,
                         SwaggerConstants.SWAGGER_URL3, SwaggerConstants.SWAGGER_URL4).permitAll()
         .anyRequest().authenticated()

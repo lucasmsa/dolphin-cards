@@ -1,0 +1,36 @@
+version: '2.4'
+x-database-variables: &database-variables
+  SPRING_DATASOURCE_URL: jdbc:postgresql://dolphin-cards-db:5432/postgres
+  SPRING_DATASOURCE_USERNAME: postgres
+  SPRING_DATASOURCE_PASSWORD: postgres
+  SERVER_PORT: 8081
+  MAIL_SENDER_API_URL: http://flask-mail-sender:5000/send-mail
+
+services:
+  dolphin-cards-db:
+    image: postgres
+    container_name: dolphin-cards-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - PGDATA=/data/postgres
+    ports: 
+      - "5432:5432"
+    volumes:
+      - dolphin-cards_data:/data/postgres
+
+  dolphin-cards-api:
+    image: lucasmsa/dolphin-cards:0.0.1-SNAPSHOT
+    container_name: dolphin-cards-api
+    deploy:
+      restart_policy:
+        condition: on-failure
+    ports:
+    - "8081:8081"
+    environment:
+      <<: *database-variables
+    depends_on:
+      - dolphin-cards-db
+
+volumes:
+  dolphin-cards_data:

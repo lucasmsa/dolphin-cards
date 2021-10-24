@@ -3,21 +3,24 @@ package br.com.dolphinCards.adapter;
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import br.com.dolphinCards.errors.Exceptions;
 import br.com.dolphinCards.model.MailParameters;
 import br.com.dolphinCards.model.MailResponse;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
+@Component
 public class EmailSenderAdapter {
+    @Value("${external.api.uri}")
     private String url;
 
     public ResponseEntity<?> forward(MailParameters mailParameters) {
         try {
-            System.out.println("THE URL IS: " + url);
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.postForObject(url, mailParameters, MailResponse.class);            
         } catch(Exception e) {

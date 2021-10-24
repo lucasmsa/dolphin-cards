@@ -12,6 +12,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface StudentRepository extends JpaRepository<Student, String> {
     public Optional<Student> findByEmail(String email);
 
-    @Query(value = "SELECT ID, EMAIL, NAME FROM STUDENTS", nativeQuery = true)
+    @Query(value = "SELECT ID, EMAIL, NAME FROM STUDENTS WHERE EMAIL != 'admin@email.com'", nativeQuery = true)
     public List<?> findAllStudentEmails();
 }

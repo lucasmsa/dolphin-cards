@@ -8,6 +8,7 @@ import br.com.dolphinCards.repository.StudentRepository;
 import br.com.dolphinCards.service.Students.SignUpService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,15 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
+@AllArgsConstructor
 @Api(value = "Students", description = "REST Controller for Students content", tags = { "Students" })
 public class StudentsController {
     private StudentRepository studentRepository;
     private PasswordEncoder passwordEncoder;
-
-    public StudentsController(StudentRepository studentRepository, PasswordEncoder passwordEncoder) {
-        this.studentRepository = studentRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @PostMapping(value = "/signup")
     @ApiOperation(value="Student sign up", 

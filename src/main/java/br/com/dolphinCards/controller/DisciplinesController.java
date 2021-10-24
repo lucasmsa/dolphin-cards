@@ -36,18 +36,15 @@ import br.com.dolphinCards.service.Disciplines.GetAllDisciplineFlashCardsService
 import br.com.dolphinCards.service.Disciplines.GetAllStudentsDisciplinesService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/discipline")
+@AllArgsConstructor
 @Api(value = "Disciplines", description = "REST Controller for Disciplines content", tags = { "Disciplines" })
 public class DisciplinesController {
     private StudentRepository studentRepository;
     private DisciplinesRepository disciplineRepository;
-
-    public DisciplinesController(StudentRepository studentRepository, DisciplinesRepository disciplineRepository) {
-        this.studentRepository = studentRepository;
-        this.disciplineRepository = disciplineRepository;
-    }
 
     @PostMapping
     @Transactional
