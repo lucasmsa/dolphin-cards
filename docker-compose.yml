@@ -4,7 +4,12 @@ x-database-variables: &database-variables
   SPRING_DATASOURCE_USERNAME: postgres
   SPRING_DATASOURCE_PASSWORD: postgres
   SERVER_PORT: 8081
-  MAIL_SENDER_API_URL: http://flask-mail-sender:5000/send-mail
+  MAIL_SENDER_API_URL: http://flask-mail-sender:5050/send-mail
+
+networks:
+  default:
+    external: true
+    name: dolphin-cards-network
 
 services:
   dolphin-cards-db:

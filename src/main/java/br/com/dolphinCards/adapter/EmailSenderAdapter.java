@@ -18,6 +18,7 @@ public class EmailSenderAdapter {
 
     public ResponseEntity<?> forward(MailParameters mailParameters) {
         try {
+            System.out.println("URL " + url);
             RestTemplate restTemplate = new RestTemplate();
             restTemplate.postForObject(url, mailParameters, MailResponse.class);            
         } catch(Exception e) {
