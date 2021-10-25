@@ -4,12 +4,7 @@ x-database-variables: &database-variables
   SPRING_DATASOURCE_USERNAME: postgres
   SPRING_DATASOURCE_PASSWORD: postgres
   SERVER_PORT: 8081
-  MAIL_SENDER_API_URL: http://flask-mail-sender:5050/send-mail
-
-networks:
-  default:
-    external: true
-    name: dolphin-cards-network
+  MAIL_SENDER_API_URL: fl;a
 
 services:
   dolphin-cards-db:
@@ -19,10 +14,19 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - PGDATA=/data/postgres
-    ports: 
-      - "5432:5432"
     volumes:
       - dolphin-cards_data:/data/postgres
+    networks:
+      - dolphin-cards-db-network
+      
+
+  flask-mail-sender:
+    image: lucasmsa/mail-sender-flask:latest
+    container_name: flask-mail-sender
+    networks:
+      flask-mail-sender-network:
+        aliases:
+          - flask-mail-sender
 
   dolphin-cards-api:
     image: lucasmsa/dolphin-cards:0.0.1-SNAPSHOT
@@ -36,6 +40,14 @@ services:
       <<: *database-variables
     depends_on:
       - dolphin-cards-db
+    networks:
+      - flask-mail-sender-network
+      - dolphin-cards-db-network
+      
 
 volumes:
   dolphin-cards_data:
+
+networks:
+  flask-mail-sender-network:
+  dolphin-cards-db-network:
