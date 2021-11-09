@@ -1,4 +1,4 @@
-package br.com.dolphinCards.FlashCards;
+package br.com.dolphinCards.Unitary.FlashCards;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

@@ -39,11 +39,12 @@ public class CreateFlashCardService {
         Optional<Discipline> optionalDiscipline = disciplineRepository.findByDisciplineNameAndStudent(flashCardsForm.getDisciplineName(), student.getId());
 
         if (!optionalDiscipline.isPresent()) return new Exceptions("Discipline with that name does not exist for user!", 404).throwException();
-
         Discipline discipline = optionalDiscipline.get();
 
         FlashCard flashCard = new FlashCard(flashCardsForm.getQuestion(), flashCardsForm.getAnswer(), discipline);
+
         FlashCard savedFlashCard = flashCardsRepository.save(flashCard);
+        
         FlashCardsDTO flashCardDTO = new FlashCardsDTO(savedFlashCard, discipline, student, false, false);
 
         return ResponseEntity.ok().body(flashCardDTO);

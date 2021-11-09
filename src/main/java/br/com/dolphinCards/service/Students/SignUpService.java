@@ -23,14 +23,16 @@ public class SignUpService {
     }
     
     public ResponseEntity<?> run() {
+        System.out.println("Eu to aqui? " + signUpForm.getEmail());
         boolean emailAlreadyExists = this.studentRepository.findByEmail(signUpForm.getEmail()).isPresent();
+        System.out.println("DOES THE EMAIL ALREADY EXISTS " + emailAlreadyExists);
         if (emailAlreadyExists) return new Exceptions("Student with this e-mail already exists", 409).throwException();
         
         String rawPassword = signUpForm.getPassword();
         String encodedPassword = this.passwordEncoder.encode(rawPassword);
         Student savedStudent = studentRepository.save(new Student(signUpForm, encodedPassword));
         StudentDTO studentDTO = new StudentDTO(savedStudent); 
-
+        System.out.println("Am I really here " + signUpForm.getName());
         return ResponseEntity.status(HttpStatus.CREATED).body(studentDTO);
     }
 }

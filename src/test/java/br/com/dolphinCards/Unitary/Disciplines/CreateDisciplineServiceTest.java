@@ -1,4 +1,4 @@
-package br.com.dolphinCards.Disciplines;
+package br.com.dolphinCards.Unitary.Disciplines;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

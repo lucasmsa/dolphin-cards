@@ -30,8 +30,15 @@ public class SendStudentsEmailWithFlashCardsForTheDayService {
         List<?> studentsObjects = studentRepository.findAllStudentEmails();
 
         for (Object studentObject : studentsObjects) {
+            Long flashCardsForTheDay;
             SendStudentsMail student = new SendStudentsMail().objectFieldsToSendStudentsMail(studentObject);
-            Long flashCardsForTheDay = flashCardsRepository.countFlashCardsForTheDay(student.getId(), new Date());
+
+            try {
+                flashCardsForTheDay = flashCardsRepository.countFlashCardsForTheDay(student.getId(), new Date());
+            } catch (Exception e) {
+                flashCardsForTheDay = 0L;
+            }
+
             MailParameters mailParameters = new MailParameters(student.getName(), student.getEmail(), flashCardsForTheDay);
             ResponseEntity<?> emailSenderAdapterResponse = emailSenderAdapter.forward(mailParameters);
             boolean emailSenderAdapterThrownException = emailSenderAdapterResponse.getStatusCodeValue() == 400 || emailSenderAdapterResponse.getStatusCodeValue() == 503;

@@ -8,6 +8,8 @@ import java.util.List;
 import org.joda.time.DateTime;
 
 import br.com.dolphinCards.form.FlashCardsForm;
+import br.com.dolphinCards.form.SignInForm;
+import br.com.dolphinCards.form.SignUpForm;
 import br.com.dolphinCards.model.Discipline;
 import br.com.dolphinCards.model.FlashCard;
 import br.com.dolphinCards.model.Student;
@@ -16,7 +18,7 @@ public class Factory {
     public FlashCardsForm flashCardFormBuilder() {
         return new FlashCardsForm("Pi with 2 decimal points", "3.14", "Mathematics");
     }
-
+    
     public FlashCard flashCardBuilder() {
         return new FlashCard("1", "Pi with 2 decimal points", "3.14", new Date(), 0, disciplineBuilder());
     }
@@ -37,6 +39,30 @@ public class Factory {
         flashCards.add(secondFlashCard);
 
         return flashCards;
+    }
+
+    public SignUpForm signUpFormBuilder() {
+        return new SignUpForm("Marcos", "test@gmail.com", "123456");
+    }
+
+    public SignUpForm adminSignUpFormBuilder() {
+        return new SignUpForm("admin", "admin@email.com", "123456");
+    }
+
+    public SignUpForm realSignUpFormBuilder() {
+        return new SignUpForm("Mucas", "lmsa.moreira@gmail.com", "123456");
+    }
+
+    public SignInForm signInFormBuilder() {
+        return new SignInForm("test@gmail.com", "123456");
+    }
+
+    public SignInForm adminSignInFormBuilder() {
+        return new SignInForm("admin@email.com", "123456");
+    }
+
+    public SignInForm realSignInFormBuilder() {
+        return new SignInForm("lmsa.moreira@gmail.com", "123456");
     }
 
     public Discipline disciplineBuilder() {
