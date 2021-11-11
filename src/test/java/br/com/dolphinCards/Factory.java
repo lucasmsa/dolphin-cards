@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
+import br.com.dolphinCards.form.DisciplinesForm;
 import br.com.dolphinCards.form.FlashCardsForm;
 import br.com.dolphinCards.form.SignInForm;
 import br.com.dolphinCards.form.SignUpForm;
@@ -67,5 +68,9 @@ public class Factory {
 
     public Discipline disciplineBuilder() {
         return new Discipline("1", "Mathematics", studentBuilder(), new HashSet<FlashCard>());
+    }
+
+    public DisciplinesForm disciplinesFormBuilder() {
+        return new DisciplinesForm("Mathematics");
     }
 }

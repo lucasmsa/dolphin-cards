@@ -1,5 +1,6 @@
 package br.com.dolphinCards.DTO;
 
+import br.com.dolphinCards.form.SignUpForm;
 import br.com.dolphinCards.model.Student;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

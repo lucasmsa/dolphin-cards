@@ -1,0 +1,21 @@
+<testsuite failures="1" name="features/SignUpPOST.feature" skipped="0" tests="1" time="1.235967">
+  <testcase classname="features.SignUpPOST" name="Creates a new student" time="1.235967">
+    <failure message="SignUpPOST.feature:13 - status code was: 409, expected: 201, response time: 890, url: http://localhost:8081/auth/signup, response: {&quot;message&quot;:&quot;Student with this e-mail already exists&quot;,&quot;status&quot;:409,&quot;timestamp&quot;:&quot;2021-11-11T14:08:21.504+00:00&quot;}">* url 'http://localhost:8081' ............................................. passed
+* header Content-Type = 'application/json' ................................ passed
+* header Accept = 'application/json' ...................................... passed
+* def signUpJson = read('../data/signUp.json') ............................ passed
+Given path 'auth/signup' .................................................. passed
+And request signUpJson .................................................... passed
+When method post .......................................................... passed
+Then status 201 ........................................................... failed
+
+Stack Trace:
+com.intuit.karate.exception.KarateException: SignUpPOST.feature:13 - status code was: 409, expected: 201, response time: 890, url: http://localhost:8081/auth/signup, response: {"message":"Student with this e-mail already exists","status":409,"timestamp":"2021-11-11T14:08:21.504+00:00"}
+	at ✽.Then status 201 (SignUpPOST.feature:13)
+
+* print signUpJson ........................................................ skipped
+* print response .......................................................... skipped
+And match response.name == signUpJson.name ................................ skipped
+And match response.email == signUpJson.email .............................. skipped</failure>
+  </testcase>
+</testsuite>

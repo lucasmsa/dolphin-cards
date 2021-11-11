@@ -4,14 +4,12 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
 import br.com.dolphinCards.Factory;
 import br.com.dolphinCards.DTO.DisciplineDTO;
 import br.com.dolphinCards.DTO.FlashCardsDTO;
 import br.com.dolphinCards.DTO.SignInDTO;
 import br.com.dolphinCards.DTO.StudentDTO;
 import br.com.dolphinCards.errors.Exceptions;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;

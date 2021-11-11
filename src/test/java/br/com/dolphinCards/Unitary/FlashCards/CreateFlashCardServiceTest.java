@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.context.TestPropertySource;
 
 import br.com.dolphinCards.Factory;
 import br.com.dolphinCards.DTO.FlashCardsDTO;
@@ -33,6 +34,7 @@ import br.com.dolphinCards.service.FlashCards.CreateFlashCardService;
 import br.com.dolphinCards.service.Students.CheckIfLoggedStudentExistsService;
 
 @SpringBootTest
+@TestPropertySource(locations = "classpath:application-test-h2.properties")
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class CreateFlashCardServiceTest {
 	private StudentRepository studentRepository;

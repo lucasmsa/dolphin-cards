@@ -27,11 +27,9 @@ public class CreateDisciplineService {
     }
 
     public ResponseEntity<?> run() {
-        System.out.println("I AM CREATING A NEW DISCIPLINE " + disciplinesForm.getName());
         Optional<Student> optionalStudent = new CheckIfLoggedStudentExistsService(studentRepository).run();
         if (optionalStudent == null) return new Exceptions().jwtUserTokenError();
 
-        System.out.println("IT PASSED THROUGH THE JWT USER TOKEN " + disciplinesForm.getName());
 
         Student student = optionalStudent.get();
         Discipline discipline = new Discipline(disciplinesForm.getName(), student);
@@ -41,7 +39,6 @@ public class CreateDisciplineService {
             return new Exceptions("Discipline with that name already exists for user!", 409).throwException();
         }
 
-        System.out.println("MEDICINA " + discipline);
         Discipline savedDiscipline = disciplineRepository.save(discipline);
 
         DisciplineDTO disciplineDTO = new DisciplineDTO(savedDiscipline, student, false);

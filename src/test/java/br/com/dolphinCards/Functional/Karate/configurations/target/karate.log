@@ -1,0 +1,30 @@
+11:08:19.343 [main] INFO  com.intuit.karate.Main - Karate version: 0.9.4
+11:08:20.296 [ForkJoinPool-1-worker-3] WARN  com.intuit.karate - skipping bootstrap configuration: could not find or read file: classpath:karate-config.js
+11:08:20.675 [ForkJoinPool-1-worker-3] DEBUG com.intuit.karate - request:
+1 > POST http://localhost:8081/auth/signup
+1 > Accept: application/json
+1 > Accept-Encoding: gzip,deflate
+1 > Connection: Keep-Alive
+1 > Content-Length: 60
+1 > Content-Type: application/json; charset=UTF-8
+1 > Host: localhost:8081
+1 > User-Agent: Apache-HttpClient/4.5.5 (Java/11.0.12)
+{"name":"test","email":"test@gmail.com","password":"123456"}
+
+11:08:21.570 [ForkJoinPool-1-worker-3] DEBUG com.intuit.karate - response time in milliseconds: 889.79
+1 < 409
+1 < Cache-Control: no-cache, no-store, max-age=0, must-revalidate
+1 < Connection: keep-alive
+1 < Content-Type: application/json
+1 < Date: Thu, 11 Nov 2021 14:08:21 GMT
+1 < Expires: 0
+1 < Keep-Alive: timeout=60
+1 < Pragma: no-cache
+1 < Transfer-Encoding: chunked
+1 < X-Content-Type-Options: nosniff
+1 < X-Frame-Options: DENY
+1 < X-XSS-Protection: 1; mode=block
+{"message":"Student with this e-mail already exists","status":409,"timestamp":"2021-11-11T14:08:21.504+00:00"}
+
+11:08:21.572 [ForkJoinPool-1-worker-3] ERROR com.intuit.karate - status code was: 409, expected: 201, response time: 890, url: http://localhost:8081/auth/signup, response: {"message":"Student with this e-mail already exists","status":409,"timestamp":"2021-11-11T14:08:21.504+00:00"}
+11:08:21.719 [pool-1-thread-1] INFO  com.intuit.karate.Runner - <<fail>> feature 1 of 1: features/SignUpPOST.feature
