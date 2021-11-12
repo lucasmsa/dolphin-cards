@@ -34,6 +34,6 @@ public class DeleteDisciplineService {
 
         disciplineRepository.deleteById(disciplineId);
 
-        return null;
+        return ResponseEntity.noContent().build();
     }
 }

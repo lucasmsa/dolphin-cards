@@ -1,4 +1,4 @@
-package br.com.dolphinCards.Functional.Karate;
+package br.com.dolphinCards.Functional.Karate.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,5 +15,7 @@ public class PrintKarateTestsResults {
             System.out.println(line);
         }
         System.out.println(divider);
+
+        return;
     }
 }

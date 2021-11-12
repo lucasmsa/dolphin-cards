@@ -1,4 +1,4 @@
-package br.com.dolphinCards.Integration;
+package br.com.dolphinCards.Integration.ExternalApi;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
