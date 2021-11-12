@@ -17,8 +17,8 @@
   - Validation and error handling for the application's endpoints
   - External API calls to send e-mails to users
   - Services related to disciplines and flash cards
-  - Caching of Disciplines
-  - Tests with Mockito
+  - Caching of Disciplines 
+  - Tests with Mockito, Karate, JUnit and MockMvc
   - Containerized application, database and external API using Docker
 
 ### How to run 🐳
